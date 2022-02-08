@@ -1,0 +1,230 @@
+
+
+
+<form id="add-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+    <!--startprint-->
+<table class="table table-striped" >
+    <thead>
+    <tr>
+        <th>{:__('Title')}</th>
+        <th>{:__('Content')}</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>支付单号</td>
+        <td>{$jindu['one_id']}</td>
+    </tr>
+    <tr>
+        <td>申请人</td>
+        <td>{$row['username']|htmlentities}</td>
+    </tr>
+    <tr>
+        <td>付款所属</td>
+        <td>{$row['pay_type_name']|htmlentities}</td>
+    </tr>
+    <tr>
+        <td>车辆</td>
+        <td>{$row['car']|htmlentities}</td>
+    </tr>
+    <tr>
+        <td>司机</td>
+        <td>{$row['siji']|htmlentities}</td>
+    </tr>
+    <tr>
+        <td>付款金额</td>
+        <td >¥&nbsp&nbsp<b >{$row['money']|htmlentities}</b>&nbsp&nbsp元</td>
+    </tr>
+    <tr>
+        <td>发生日期</td>
+        <td>{$row['newtime']|date='Y-m-d',###}</td>
+    </tr>
+    <tr></tr>
+        <td>付款方式</td>
+        <td>{$row['payinfi']|htmlentities}</td>
+    <tr>
+        <td>收款账户</td>
+        <td>{$row['user']|htmlentities}</td>
+    </tr>
+    <tr>
+        <td>收款账号</td>
+        <td>{$row['nember']|htmlentities}</td>
+    </tr>
+    <tr>
+        <td>开户行</td>
+        <td>{$row['bank']|htmlentities}</td>
+    </tr>
+    <tr>
+        <td>票据类型</td>
+        <td>
+            {$row['invoice_text']|htmlentities}
+        </td>
+    </tr>
+
+        <td>备注</td>
+        <td>{$row['ps']|htmlentities}</td>
+
+
+    </tr>
+
+
+    <tr>
+        <td>审核进度</td>
+        <td>
+
+            <div class="layui-timeline-content layui-text">
+                <div class="layui-timeline-title">{$jindu['our']}:
+                    {switch name="$jindu['order_status']" }
+
+                    {case value="1" }<font color="green">同意</font>{/case}
+
+                    {case value="2"}<font color="red">驳回</font>{/case}
+
+                    {default /}<font color="blue">审批中</font>
+
+                    {/switch}</div>
+            </div>
+
+            {if condition="$jindu['order_time'] != null"}
+            审批时间:{$jindu['order_time']|date='Ymd H:i:s',###}
+            {/if}
+
+
+
+
+            <hr/>
+            <div class="layui-timeline-content layui-text">
+                <div class="layui-timeline-title">{$jindu['bur']}:
+                    {switch name="$jindu['boss_status']" }
+
+                    {case value="1" }<font color="green">同意</font>{/case}
+
+                    {case value="2"}<font color="red">驳回</font>{/case}
+
+                    {default /}<font color="blue">审批中</font>
+
+                    {/switch}</div>
+            </div>
+            {if condition="$jindu['boss_time'] != null"}
+            审批时间:{$jindu['boss_time']|date='Ymd H:i:s',###}
+            {/if}
+
+
+
+
+            <hr/>
+            <div class="layui-timeline-content layui-text">
+                <div class="layui-timeline-title">{$jindu['mur']}:
+                    {switch name="$jindu['money_status']" }
+
+                    {case value="1" }<font color="green">同意</font>{/case}
+
+                    {case value="2"}<font color="red">驳回</font>{/case}
+
+                    {default /}<font color="blue">审批中</font>
+
+                    {/switch}</div>
+            </div>
+
+            {if condition="$jindu['money_time'] != null"}
+            审批时间:{$jindu['money_time']|date='Ymd H:i:s',###}
+            {/if}
+
+
+
+
+
+        </td>
+    </tr>
+    <!--endprint-->
+    <tr>
+        <td>票据图片</td>
+        <td>
+            {volist name="row['img']" id="v"  }
+            <img src="{$v|htmlentities}" width="100" class="img-thumbnail" data-tips-image >&nbsp&nbsp
+
+            {/volist}
+        </td>
+    <tr>
+
+    <tr>
+        <td>操作</td>
+        <td>
+            <div class="form-group">
+<!--                <label class="control-label col-xs-12 col-sm-2"><b>审批:</b></label>-->
+                <div class="col-xs-12 col-sm-12">
+
+                    <div class="radio" >
+                        <label> <input  name="check" type="radio" value="1" /><b>同意</b></label>
+                        <label> <input  name="check" type="radio" value="2" /><b>驳回</b></label>
+
+                        </label>
+
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="form-group">
+<!--                <label class="control-label col-xs-12 col-sm-2">批注:</label>-->
+                <div class="col-xs-12 col-sm-12">
+                    批注:<input id="c-ps" class="form-control" name="row[ps]" type="text" value="{$row.beizhu|htmlentities}">
+                </div>
+            </div>
+        </td>
+    <tr>
+
+    </tbody>
+</table>
+
+
+
+<div id="ShowImage_Form" class="modal hide">
+    <div class="modal-header">
+        <button data-dismiss="modal" class="close" type="button"></button>
+    </div>
+    <div class="modal-body">
+        <div id="img_show">
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+        <div class="form-group layer-footer">
+            <label class="control-label col-xs-12 col-sm-2"></label>
+            <div class="col-xs-12 col-sm-8">
+
+                <button type="submit"  class="btn btn-success btn-embossed " >提交</button>
+                <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+
+            </div>
+        </div>
+
+
+
+    </ul>
+
+
+
+
+
+
+
+
+
+</form>
+
+
+
+
+
+

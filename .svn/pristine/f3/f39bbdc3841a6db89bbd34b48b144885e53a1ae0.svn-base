@@ -1,0 +1,148 @@
+define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefined, Backend, Table, Form) {
+
+    var Controller = {
+        index: function () {
+            // 初始化表格参数配置
+            Table.api.init({
+                extend: {
+                    index_url: 'task/index' + location.search,
+                    add_url: 'task/add',
+                    detail_url: 'task/check',
+                    // all_url:'task/all',
+                    // edit_url: 'task/edit',
+                    // del_url: 'task/del',
+                    multi_url: 'task/multi',
+                    // import_url: 'task/import',
+                    table: 'task',
+                }
+            });
+
+            var table = $("#table");
+
+            // 初始化表格
+            table.bootstrapTable({
+                url: $.fn.bootstrapTable.defaults.extend.index_url,
+                pk: 'id',
+                sortName: 'id',
+                searchFormVisible: true,
+                columns: [
+                    [
+                        {checkbox: true},
+                        // {field: 'id', title: __('Id')},
+                        {field: 'orders_id', title: __('Orders_id'), table: table,
+                            buttons: [
+                                {name: 'check', text: '审核', title: '审核', icon: 'fa fa-paint-brush', classname: 'btn btn-xs btn-info btn-dialog   ', url: 'car_pay/detail'}
+                            ]
+                            ,events: Table.api.events.operate, formatter: Table.api.formatter.operate},
+
+                        {field: 'one_id', title: __('支付单号'), operate: 'LIKE'},
+                        {field: 'dictv.name', title: __('dictv.name'), operate: 'LIKE'},
+
+                        {field: 'dict.name', title: __('dict.name'), operate: 'LIKE'},
+
+                        {field: 'addtime', title: __('Addtime'), operate:'RANGE', addclass:'datetimerange', autocomplete:false, formatter: Table.api.formatter.datetime},
+
+                        // {field: 'carpay.pay_type_id', title: __('Carpay.pay_type_id')},
+                        {field: 'admin.nickname', title: __('Admin.nickname'), operate: 'LIKE'},
+                        // {field: 'adduser', title: __('Adduser')},
+                        // {field: 'leder_id', title: __('Leder_id')},
+                        // {field: 'leder_status', title: __('Leder_status'),operate:false, formatter: Table.api.formatter.label},
+
+
+                        {field: 'leder_status', title: __('Leder_status'),operate:false, formatter:  function(value,row,index) {
+                var a = "";
+                if(value == "0") {
+                    a = '<strong><span style="color:#fa9f00">待审核</span></strong>';
+                }else if(value == "1"){
+                    a = '<strong><span style="color:green">通过</span></strong>';
+                }else if(value == "2") {
+                    a = '<strong><span style="color:#FF0000">驳回</span></strong>';
+                }
+                return a;
+            }},
+
+
+                        // {field: 'leder_time', title: __('Leder_time'), operate:'RANGE', addclass:'datetimerange', autocomplete:false, formatter: Table.api.formatter.datetime},
+                        // {field: 'order_id', title: __('Order_id')},
+                        {field: 'order_status', title: __('Order_status'),operate:false, formatter:function(value,row,index) {
+                                var a = "";
+                                if(value == "0") {
+                                    a = '<strong><span style="color:#fa9f00">待审核</span></strong>';
+                                }else if(value == "1"){
+                                    a = '<strong><span style="color:green">通过</span></strong>';
+                                }else if(value == "2") {
+                                    a = '<strong><span style="color:#FF0000">驳回</span></strong>';
+                                }
+                                return a;
+                            }},
+                        // {field: 'order_time', title: __('Order_time'), operate:'RANGE', addclass:'datetimerange', autocomplete:false, formatter: Table.api.formatter.datetime},
+                        // {field: 'boss_id', title: __('Boss_id')},
+                        {field: 'boss_status', title: __('Boss_status'),operate:false, formatter: function(value,row,index) {
+                                var a = "";
+                                if(value == "0") {
+                                    a = '<strong><span style="color:#fa9f00">待审核</span></strong>';
+                                }else if(value == "1"){
+                                    a = '<strong><span style="color:green">通过</span></strong>';
+                                }else if(value == "2") {
+                                    a = '<strong><span style="color:#FF0000">驳回</span></strong>';
+                                }
+                                return a;
+                            }},
+                        // {field: 'boss_time', title: __('Boss_time'), operate:'RANGE', addclass:'datetimerange', autocomplete:false, formatter: Table.api.formatter.datetime},
+                        // {field: 'money_id', title: __('Money_id')},
+                        {field: 'money_status', title: __('Money_status'),operate:false, formatter: function(value,row,index) {
+                                var a = "";
+                                if(value == "0") {
+                                    a = '<strong><span style="color:#fa9f00">待审核</span></strong>';
+                                }else if(value == "1"){
+                                    a = '<strong><span style="color:green">通过</span></strong>';
+                                }else if(value == "2") {
+                                    a = '<strong><span style="color:#FF0000">驳回</span></strong>';
+                                }
+                                return a;
+                            }},
+                        // {field: 'money_time', title: __('Money_time'), operate:'RANGE', addclass:'datetimerange', autocomplete:false, formatter: Table.api.formatter.datetime},
+                        // {field: 'pay_id', title: __('Pay_id')},
+                        {field: 'pay_status', title: __('Pay_status'),operate:false, formatter: function(value,row,index) {
+                                var a = "";
+                                if(value == "0") {
+                                    a = '<strong><span style="color:#fa9f00">待操作</span></strong>';
+                                }else if(value == "1"){
+                                    a = '<strong><span style="color:green">完成</span></strong>';
+                                }else if(value == "2") {
+                                    a = '<strong><span style="color:#FF0000">驳回</span></strong>';
+                                }
+                                return a;
+                            }},
+                        // {field: 'pay_time', title: __('Pay_time'), operate:'RANGE', addclass:'datetimerange', autocomplete:false, formatter: Table.api.formatter.datetime},
+                        // {field: 'check_status', title: __('Check_status'),operate:false, formatter: Table.api.formatter.label},
+                        // {field: 'admin.id', title: __('Admin.id')},
+
+                        // {field: 'carpay.id', title: __('Carpay.id')},
+
+                        // {field: 'carpay.car_id', title: __('Carpay.car_id')},
+                        // {field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate, formatter: Table.api.formatter.operate}
+                    ]
+                ]
+            });
+
+            // 为表格绑定事件
+            Table.api.bindevent(table);
+        },
+        add: function () {
+            Controller.api.bindevent();
+        },
+        edit: function () {
+            Controller.api.bindevent();
+        },
+        detail: function () {
+            Controller.api.bindevent();
+        },
+        api: {
+            bindevent: function () {
+                Form.api.bindevent($("form[role=form]"));
+            }
+        }
+    };
+    return Controller;
+});

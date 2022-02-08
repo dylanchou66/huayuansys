@@ -1,0 +1,106 @@
+<form id="edit-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Card_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-card_id" data-rule="required" data-source="card/index" class="form-control selectpage" name="row[card_id]" type="text" value="{$row.card_id|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Card_bill_type')}:</label>
+        <div class="col-xs-12 col-sm-8">
+                        
+            <select  id="c-card_bill_type" class="form-control selectpicker" name="row[card_bill_type]">
+                {foreach name="cardBillTypeList" item="vo"}
+                    <option value="{$key}" {in name="key" value="$row.card_bill_type"}selected{/in}>{$vo}</option>
+                {/foreach}
+            </select>
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Adduser')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-adduser" data-rule="required" class="form-control" name="row[adduser]" type="number" value="{$row.adduser|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Money')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-money" class="form-control" step="0.01" name="row[money]" type="number" value="{$row.money|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Money_type')}:</label>
+        <div class="col-xs-12 col-sm-8">
+                        
+            <select  id="c-money_type" class="form-control selectpicker" name="row[money_type]">
+                {foreach name="moneyTypeList" item="vo"}
+                    <option value="{$key}" {in name="key" value="$row.money_type"}selected{/in}>{$vo}</option>
+                {/foreach}
+            </select>
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Addtime')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-addtime" class="form-control datetimepicker" data-date-format="YYYY-MM-DD HH:mm:ss" data-use-current="true" name="row[addtime]" type="text" value="{:$row.addtime?datetime($row.addtime):''}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Yw_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-yw_id" data-rule="required" data-source="yw/index" class="form-control selectpage" name="row[yw_id]" type="text" value="{$row.yw_id|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Yw_type')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-yw_type" class="form-control" name="row[yw_type]" type="number" value="{$row.yw_type|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Ps')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-ps" class="form-control" name="row[ps]" type="text" value="{$row.ps|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Bill_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-bill_id" data-rule="required" data-source="bill/index" class="form-control selectpage" name="row[bill_id]" type="text" value="{$row.bill_id|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Task_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-task_id" data-rule="required" data-source="task/index" class="form-control selectpage" name="row[task_id]" type="text" value="{$row.task_id|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Status')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            
+            <div class="radio">
+            {foreach name="statusList" item="vo"}
+            <label for="row[status]-{$key}"><input id="row[status]-{$key}" name="row[status]" type="radio" value="{$key}" {in name="key" value="$row.status"}checked{/in} /> {$vo}</label> 
+            {/foreach}
+            </div>
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Pay_time')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-pay_time" class="form-control datetimepicker" data-date-format="YYYY-MM-DD HH:mm:ss" data-use-current="true" name="row[pay_time]" type="text" value="{:$row.pay_time?datetime($row.pay_time):''}">
+        </div>
+    </div>
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed disabled">{:__('OK')}</button>
+            <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+        </div>
+    </div>
+</form>

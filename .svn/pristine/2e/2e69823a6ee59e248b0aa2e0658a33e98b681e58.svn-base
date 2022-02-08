@@ -1,0 +1,99 @@
+<form id="add-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Type_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-type_id" data-rule="required" data-source="dict_v/index" data-params='{"custom[status]":"1","custom[dict_id]":"26"}' class="form-control selectpage" name="row[type_id]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Company')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-company" data-rule="required" class="form-control" name="row[company]" type="text">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Project')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-project" data-rule="required" class="form-control" name="row[project]" type="text">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Goods_type_ids')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-goods_type_ids" data-rule="required" data-source="dict_v/index" data-params='{"custom[status]":"1","custom[dict_id]":"27"}' data-multiple="true" class="form-control selectpage" name="row[goods_type_ids]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Goods_name_ids')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-goods_name_ids" data-rule="required" data-source="dict_v/index" data-params='{"custom[status]":"1","custom[dict_id]":"28"}' data-multiple="true" class="form-control selectpage" name="row[goods_name_ids]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Starttime')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-starttime" data-rule="required" class="form-control datetimepicker" data-date-format="YYYY-MM-DD" data-use-current="true" name="row[starttime]" type="text" value="{:date('Y-m-d H:i:s')}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Endtime')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-endtime" data-rule="required" class="form-control datetimepicker" data-date-format="YYYY-MM-DD" data-use-current="true" name="row[endtime]" type="text" value="{:date('Y-m-d H:i:s')}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Payday')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-payday" data-rule="required" class="form-control" name="row[payday]" type="number">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Free_ids')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-free_ids" data-rule="required" data-source="dict_v/index" data-params='{"custom[status]":"1","custom[dict_id]":"23"}' data-multiple="true" class="form-control selectpage" name="row[free_ids]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Kefu_ids')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-kefu_ids" data-rule="required" data-source="admin/user" data-field="nickname" data-multiple="true" class="form-control selectpage" name="row[kefu_ids]" type="text" value="">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Company_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-company_id" data-rule="required" data-source="dict_v/index" data-params='{"custom[status]":"1","custom[dict_id]":"25"}' class="form-control selectpage" name="row[company_id]" type="text" value="">
+        </div>
+    </div>
+    <!--    <div class="form-group">-->
+    <!--        <label class="control-label col-xs-12 col-sm-2">{:__('Adduser')}:</label>-->
+    <!--        <div class="col-xs-12 col-sm-8">-->
+    <!--            <input id="c-adduser" data-rule="required" class="form-control" name="row[adduser]" type="number">-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <!--    <div class="form-group">-->
+    <!--        <label class="control-label col-xs-12 col-sm-2">{:__('Status_switch')}:</label>-->
+    <!--        <div class="col-xs-12 col-sm-8">-->
+    <!--            -->
+    <!--            <input  id="c-status_switch" name="row[status_switch]" type="hidden" value="0">-->
+    <!--            <a href="javascript:;" data-toggle="switcher" class="btn-switcher" data-input-id="c-status_switch" data-yes="1" data-no="0" >-->
+    <!--                <i class="fa fa-toggle-on text-success fa-flip-horizontal text-gray fa-2x"></i>-->
+    <!--            </a>-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <!--    <div class="form-group">-->
+    <!--        <label class="control-label col-xs-12 col-sm-2">{:__('Weigh')}:</label>-->
+    <!--        <div class="col-xs-12 col-sm-8">-->
+    <!--            <input id="c-weigh" class="form-control" name="row[weigh]" type="number">-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed disabled">{:__('OK')}</button>
+            <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+        </div>
+    </div>
+</form>

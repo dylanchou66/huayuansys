@@ -1,0 +1,172 @@
+<script src="https://cdn.staticfile.org/jquery/2.1.4/jquery.min.js"></script>
+<form id="add-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+    <input type="hidden" name="qk" value="{$qk}">
+    <input type="hidden" id="jz_bz" name="row[jz_beizhu]">
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Cmm_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-cmm_id" data-rule="required"  class="form-control" name="row[cmm_id]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Dh_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-dh_id" data-rule="required"  class="form-control" name="row[dh_id]" type="text" value="">
+        </div>
+    </div>
+
+    <div class="form-group" >
+        <label class="control-label col-xs-12 col-sm-2">{:__('Project_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-project_id" data-rule="required" data-source="project/index" data-primary-key="id"
+                   data-field="project" class="form-control selectpage" name="row[project_id]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group" >
+        <label class="control-label col-xs-12 col-sm-2">{:__('Type_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+
+            <select  id="c-type_id" class="form-control selectpicker" name="row[type_id]"  >
+                {foreach name="typeIdList" item="vo"}
+                <option value="{$key}" {in name="key" value="1"}selected{/in}>{$vo}</option>
+                {/foreach}
+            </select>
+
+        </div>
+    </div>
+    <div class=" form-group" >
+        <label class="control-label col-xs-12 col-sm-2">{:__('Project_type_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-project_type_id" data-rule="required" data-source="dict_v/index" data-primary-key="id"
+                   data-field="name" data-params='{"custom[status]":"1","custom[dict_id]":"26"}' class="form-control selectpage" name="row[project_type_id]" type="text" value="">
+        </div>
+    </div>
+
+    <div class=" form-group" >
+        <label class="control-label col-xs-12 col-sm-2">{:__('Pay_type_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-pay_type_id" data-rule="required"  data-source="dict_v/index" data-primary-key="id"
+                   data-field="name" data-params='{"custom[status]":"1","custom[dict_id]":"43"}' class="form-control selectpage" name="row[pay_type_id]" type="text" value="" >
+        </div>
+    </div>
+
+    <div class=" form-group" >
+        <label class="control-label col-xs-12 col-sm-2">{:__('Newtime')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-newtime" class="form-control datetimepicker" data-date-format="YYYY-MM-DD" data-use-current="true" name="row[newtime]" type="text" value="{:date('Y-m-d')}">
+        </div>
+    </div>
+    <div class=" form-group" >
+        <label class="control-label col-xs-12 col-sm-2">{:__('Pay_money')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="ttlmoney" class="form-control" data-rule="required" name="row[pay_money]" type="number" >
+        </div>
+    </div>
+
+    <div class=" form-group" >
+        <label class="control-label col-xs-12 col-sm-2">{:__('借支款')}:</label>
+
+            <div class="col-xs-12 col-sm-8">
+            <input id="hxcheck" name="row[borrow]" type="checkbox" value="1" style="text-align:center; vertical-align:middle"> 核销
+                <font color="red"><span id="info" style="display: none" ></span></font>
+            </div>
+    </div>
+    <div class=" form-group" style="display:none" id="hx">
+        <label class="control-label col-xs-12 col-sm-2">{:__('核销')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="jz_qk" class="form-control" name="row[borrow_money]" type="number" readonly>
+        </div>
+    </div>
+    <div class=" form-group" style="display:none"id="jy">
+        <label class="control-label col-xs-12 col-sm-2">{:__('结余')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="jz_jy" class="form-control" name="row[cash]" type="number" readonly>
+        </div>
+    </div>
+    <div class=" form-group" >
+        <label class="control-label col-xs-12 col-sm-2">{:__('User')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-user" class="form-control" name="row[user]" type="text">
+        </div>
+    </div>
+    <div class=" form-group" >
+        <label class="control-label col-xs-12 col-sm-2">{:__('Nember')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-nember" class="form-control" name="row[nember]" type="text">
+        </div>
+    </div>
+    <div class=" form-group" >
+        <label class="control-label col-xs-12 col-sm-2">{:__('Invoice_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-invoice_id" data-rule="required" data-source="dict_v/index" data-primary-key="id"
+                   data-field="name" data-params='{"custom[status]":"1","custom[dict_id]":"23"}' class="form-control selectpage" name="row[invoice_id]" type="text" value="">
+        </div>
+    </div>
+    <div class=" form-group" >
+        <label class="control-label col-xs-12 col-sm-2">{:__('Photo_images')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="input-group">
+                <input id="c-photo_images"  data-rule="required" class="form-control" size="50" name="row[photo_images]" type="textarea" readonly>
+                <div class="input-group-addon no-border no-padding">
+                    <span><button type="button" id="faupload-photo_images" class="btn btn-danger faupload" data-input-id="c-photo_images" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp" data-multiple="true" data-preview-id="p-photo_images"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                </div>
+                <span class="msg-box n-right" for="c-photo_images"></span>
+            </div>
+            <ul class="row list-inline faupload-preview" id="p-photo_images"></ul>
+        </div>
+    </div>
+    <div class=" form-group" >
+        <label class="control-label col-xs-12 col-sm-2">{:__('Beizhu')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <textarea id="c-beizhu" class="form-control " rows="5" name="row[beizhu]" cols="50"></textarea>
+        </div>
+    </div>
+
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed disabled">{:__('OK')}</button>
+            <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+        </div>
+    </div>
+</form>
+<script type="text/javascript">
+    $(document).ready(function() {
+        var qk = $('input[name="qk"]').val();
+        $('#ttlmoney').bind('input propertychange', function() {
+            var ttl = $(this).val();
+            var res = ttl-qk;
+            //按照不同情况显示内容
+            if(res == 0){
+                var info = '核销明细:借支欠款'+qk+'元,核销'+ttl+'元,结余'+res+'元。';
+                $('#jz_qk').val(qk);
+            }else if(res > 0){
+                var info = '核销明细:借支欠款'+qk+'元,核销'+qk+'元,报销'+res+'元。';
+                $('#jz_qk').val(qk);
+            }else{
+                var info = '核销明细:借支欠款'+qk+'元,核销'+qk+'元,结余'+res+'元。';
+                $('#jz_qk').val($(this).val());
+            }
+            $('#jz_jy').val(res);
+            $('#info').text(info);
+            $('#jz_bz').val(info);
+        });
+        $("#hxcheck").click(function(){
+            var check = $("#hxcheck").prop('checked');
+            if(check == true){
+                $('#hx').css('display','block');
+                $('#info').css('display','block');
+                $('#jy').css('display','block');
+            }else{
+                $('#hx').css('display','none');
+                $('#info').css('display','none');
+                $('#jy').css('display','none');
+            }
+        });
+
+
+    });
+</script>
+
+

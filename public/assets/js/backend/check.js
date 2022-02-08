@@ -1,0 +1,68 @@
+define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefined, Backend, Table, Form) {
+
+    var Controller = {
+        index: function () {
+            // 初始化表格参数配置
+            Table.api.init({
+                extend: {
+                    index_url: 'check/index' + location.search,
+                    add_url: 'check/add',
+                    edit_url: 'check/edit',
+                    del_url: 'check/del',
+                    multi_url: 'check/multi',
+                    import_url: 'check/import',
+                    table: 'check',
+                }
+            });
+
+            var table = $("#table");
+
+            // 初始化表格
+            table.bootstrapTable({
+                url: $.fn.bootstrapTable.defaults.extend.index_url,
+                pk: 'id',
+                sortName: 'id',
+                columns: [
+                    [
+                        // {checkbox: true},
+                        // {field: 'id', title: __('Id')},
+                        // {field: 'check_id', title: __('Check_id')},
+                        {field: 'dictvalues.name', title: __('Dictvalues.name'), operate: 'LIKE'},
+                        {field: 'admin.nickname', title: __('Admin.nickname'), operate: 'LIKE'},
+                        {field: 'order.nickname', title: __('部门经理'), operate: 'LIKE'},
+                        {field: 'boss.nickname', title: __('总经理'), operate: 'LIKE'},
+                        {field: 'king.nickname', title: __('董事长'), operate: 'LIKE'},
+                        {field: 'money.nickname', title: __('财务部'), operate: 'LIKE'},
+                        {field: 'pay.nickname', title: __('出纳'), operate: 'LIKE'},
+                        // {field: 'check_leder_id', title: __('Check_leder_id')},
+                        // {field: 'check_order_id', title: __('Check_order_id')},
+                        // {field: 'check_boss_id', title: __('Check_boss_id')},
+                        // {field: 'check_money_id', title: __('Check_money_id')},
+                        // {field: 'check_pay_id', title: __('Check_pay_id')},
+                        // {field: 'updatetime', title: __('Updatetime'), operate:'RANGE', addclass:'datetimerange', autocomplete:false, formatter: Table.api.formatter.datetime},
+                        // {field: 'dictvalues.id', title: __('Dictvalues.id')},
+
+                        // {field: 'admin.id', title: __('Admin.id')},
+
+                        {field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate, formatter: Table.api.formatter.operate}
+                    ]
+                ]
+            });
+
+            // 为表格绑定事件
+            Table.api.bindevent(table);
+        },
+        add: function () {
+            Controller.api.bindevent();
+        },
+        edit: function () {
+            Controller.api.bindevent();
+        },
+        api: {
+            bindevent: function () {
+                Form.api.bindevent($("form[role=form]"));
+            }
+        }
+    };
+    return Controller;
+});

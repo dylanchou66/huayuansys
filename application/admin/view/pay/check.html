@@ -1,0 +1,107 @@
+<form id="edit-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+    <div class="form-group">
+    <input type="hidden" name="row[id]" value="{$row.id|htmlentities}">
+        <input type="hidden" name="row[pay_money]" value="{$row.pay_money|htmlentities}">
+        <input type="hidden" name="row[pay_one_id]" value="{$row.pay_one_id|htmlentities}">
+
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('申请单号')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-claims_id" data-rule="required"  name="" type="text" value="{$row.pay_one_id|htmlentities}" readonly>
+        </div>
+    </div>  <div class="form-group">
+    <label class="control-label col-xs-12 col-sm-2">{:__('车满满订单号')}:</label>
+    <div class="col-xs-12 col-sm-8">
+        <input id="c-claims_id" data-rule="required"  name="" type="text" value="{$row.cmm_id|htmlentities}" readonly>
+    </div>
+</div>  <div class="form-group">
+    <label class="control-label col-xs-12 col-sm-2">{:__('逗号订单号')}:</label>
+    <div class="col-xs-12 col-sm-8">
+        <input id="c-claims_id" data-rule="required"  name="" type="text" value="{$row.dh_id|htmlentities}" readonly>
+    </div>
+</div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('总金额')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-claims_id" data-rule="required"  name="" type="text" value="{$row.pay_money|htmlentities}" readonly>
+        </div>
+    </div>
+
+
+
+<hr/>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">客户:</label>
+        <div class="col-xs-12 col-sm-3">
+            <input id="number1" data-rule="required" class="form-control cysttl number"  name="row[kh_money]" type="number" value="" min="0">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('上海分公司')}:</label>
+        <div class="col-xs-12 col-sm-3">
+            <input id="number1" data-rule="required" class="form-control cysttl number"  name="row[sh_money]" type="number" value="" min="0">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">
+                    <input id="c-siji_id"  data-source="dict_v/index"  data-params='{"custom[id]":["GT","46"],"custom[status]":"1","custom[dict_id]":"25"}' class="form-control selectpage" name="row[fgs_id]" type="text" value="">
+        </label>
+        <div class="col-xs-12 col-sm-3">
+            <input id="number1" data-rule="required" class="form-control cysttl number"  name="row[fgs_money]" type="number" value="" min="0">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('确认凭据')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="input-group">
+                <input id="c-photos-cys" data-rule="required" class="form-control" size="50" name="row[check_photo]" type="text" readonly>
+                <div class="input-group-addon no-border no-padding">
+                    <span><button type="button" id="faupload-photoimages" class="btn btn-danger faupload" data-input-id="c-photos-cys" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp" data-multiple="true" data-preview-id="p-photos-cys"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                </div>
+                <span class="msg-box n-right" for="c-photos-cys"></span>
+            </div>
+            <ul class="row list-inline faupload-preview" id="p-photos-cys"></ul>
+        </div>
+    </div>
+
+<!--    <div class="form-group">-->
+<!--        <label class="control-label col-xs-12 col-sm-2">{:__('Photos')}:</label>-->
+<!--        <div class="col-xs-12 col-sm-8">-->
+<!--            <div class="input-group">-->
+<!--                <input id="c-photos-hk" data-rule="required" class="form-control" size="50" name="row[photos-kh]" type="text">-->
+<!--                <div class="input-group-addon no-border no-padding">-->
+<!--                    <span><button type="button" id="faupload-photoimages" class="btn btn-danger faupload" data-input-id="c-photos-hk" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp" data-multiple="true" data-preview-id="p-photos-hk"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>-->
+<!--                </div>-->
+<!--                <span class="msg-box n-right" for="c-photos-hk"></span>-->
+<!--            </div>-->
+<!--            <ul class="row list-inline faupload-preview" id="p-photos-hk"></ul>-->
+<!--        </div>-->
+<!--    </div>-->
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-4">
+            <button type="submit" class="btn btn-success btn-embossed disabled" >{:__('OK')}</button>
+            <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+        </div>
+    </div>
+</form>
+
+
+<script>
+    document.getElementById("number1").addEventListener("keypress",function(event){
+        if(event.keyCode == 45){
+            event.preventDefault();
+        }
+    });
+    document.getElementById("number2").addEventListener("keypress",function(event){
+        if(event.keyCode == 45){
+            event.preventDefault();
+        }
+    });
+    document.getElementById("number3").addEventListener("keypress",function(event){
+        if(event.keyCode == 45){
+            event.preventDefault();
+        }
+    });
+</script>

@@ -1,0 +1,412 @@
+
+
+{if condition="$row['status'] == 1"}
+
+
+<button type="button" onclick="doPrint()">打印</button>
+
+
+
+{/if}
+
+
+<form id="add-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+    <!--startprint-->
+<table class="table table-striped" >
+    <thead>
+    <tr>
+        <th>{:__('Title')}</th>
+        <th>{:__('Content')}</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>支付单号</td>
+        <td>{$row['pay_one_id']}</td>
+    </tr>
+    <tr>
+        <td>车满满订单号</td>
+        <td>{$row['cmm_id']}</td>
+    </tr>
+    <tr>
+        <td>逗号订单号</td>
+        <td>{$row['dh_id']}</td>
+    </tr>
+    <tr>
+        <td>发生日期</td>
+        <td>{$row['newtime']|date='Y-m-d',###}</td>
+    </tr>
+    <tr>
+        <td>申请人</td>
+        <td>{$row['username']|htmlentities}</td>
+    </tr>
+    <tr>
+        <td>业务类型</td>
+        <td >{$row['ptname']|htmlentities}</td>
+    </tr>
+    <tr>
+        <td>项目名</td>
+        <td >{$row['pname']|htmlentities}</td>
+    </tr>
+
+    <tr>
+        <td>费用所属</td>
+        <td>{$row['payname']|htmlentities}</td>
+    </tr>
+
+    <tr>
+        <td>记账类型</td>
+        <td>
+            {switch name="$row['type_id']" }
+            {case value="0"}费用垫付{/case}
+
+            {case value="1"}成本支出{/case}
+            {default /}
+
+            {/switch}
+
+
+
+        </td>
+    </tr>
+
+
+    <tr>
+        <td>付款金额</td>
+        <td >¥&nbsp&nbsp<b >{$row['pay_money']|htmlentities}</b>&nbsp&nbsp元</td>
+    </tr>
+
+
+    {switch name="$row['df_type']"}
+    {case value="0" }
+    <tr>
+        <td>垫付对象</td>
+        <td >内部---收款人：{$row['user']|htmlentities}</td>
+    </tr>
+    {/case}
+    {case value="1" }
+    <tr>
+        <td>垫付对象</td>
+        <td >{$row['fgsn']}---收款人：{$row['user']|htmlentities}</td>
+    </tr>
+    {/case}
+    {case value="2" }
+    <tr>
+        <td>垫付对象</td>
+        <td >{$row['pc']}---收款人：{$row['user']|htmlentities}</td>
+    </tr>
+    {/case}
+
+    {default /}
+    <tr>
+        <td>垫付对象</td>
+        <td >{$row['pc']}---收款人：{$row['user']|htmlentities}</td>
+    </tr>
+    {/switch}
+    <tr>
+        <td>备注</td>
+        <td>{$row['beizhu']|htmlentities}</td>
+
+
+    </tr>
+    {if condition="$jindu != ''"}
+    {if condition="$row['pay_money'] != ''"}
+    <tr>
+        <td>审核进度</td>
+        <td>
+            <div class="layui-timeline-content layui-text">
+                {if condition="$jindu['leder_id'] != 24 "}
+                <div class="layui-timeline-title">
+
+                    {$jindu['lur']}:
+                    {switch name="$jindu['leder_status']" }
+
+                    {case value="1" }<font color="green">同意</font>{/case}
+
+                    {case value="2"}<font color="red">驳回</font>{/case}
+
+                    {default /}<font color="blue">审批中</font>
+
+                    {/switch}</div>
+                {if condition="$jindu['leder_time'] != null "}
+                审批时间:{$jindu['leder_time']|date='Ymd H:i:s',###}
+                {/if}
+                {/if}
+            </div>
+
+
+
+
+
+
+            <div class="layui-timeline-content layui-text">
+                {if condition="$jindu['order_id'] != 24 "}
+                <div class="layui-timeline-title">{$jindu['our']}:
+                    {switch name="$jindu['order_status']" }
+
+                    {case value="1" }<font color="green">同意</font>{/case}
+
+                    {case value="2"}<font color="red">驳回</font>{/case}
+
+                    {default /}<font color="blue">审批中</font>
+
+                    {/switch}</div>
+                {if condition="$jindu['order_time'] != null"}
+                审批时间:{$jindu['order_time']|date='Ymd H:i:s',###}
+                {/if}
+
+                {/if}
+            </div>
+
+
+
+
+
+            <hr/>
+            <div class="layui-timeline-content layui-text">
+                <div class="layui-timeline-title">{$jindu['bur']}:
+                    {switch name="$jindu['boss_status']" }
+
+                    {case value="1" }<font color="green">同意</font>{/case}
+
+                    {case value="2"}<font color="red">驳回</font>{/case}
+
+                    {default /}<font color="blue">审批中</font>
+
+                    {/switch}</div>
+            </div>
+            {if condition="$jindu['boss_time'] != null"}
+            审批时间:{$jindu['boss_time']|date='Ymd H:i:s',###}
+            {/if}
+
+
+
+            <div class="layui-timeline-content layui-text">
+                <div class="layui-timeline-title">
+                    {if condition="$row['pay_money'] > 30000"}
+                    {$jindu['kur']}:
+                    {switch name="$jindu['king_status']" }
+
+                    {case value="1" }<font color="green">同意</font>{/case}
+
+                    {case value="2"}<font color="red">驳回</font>{/case}
+
+                    {default /}<font color="blue">审批中</font>
+
+                    {/switch}</div>
+                {/if}
+            </div>
+            {if condition="$jindu['king_time'] != null"}
+            审批时间:{$jindu['king_time']|date='Ymd H:i:s',###}
+            {/if}
+
+
+
+            <hr/>
+            <div class="layui-timeline-content layui-text">
+                <div class="layui-timeline-title">{$jindu['mur']}:
+                    {switch name="$jindu['money_status']" }
+
+                    {case value="1" }<font color="green">同意</font>{/case}
+
+                    {case value="2"}<font color="red">驳回</font>{/case}
+
+                    {default /}<font color="blue">审批中</font>
+
+                    {/switch}</div>
+            </div>
+
+            {if condition="$jindu['money_time'] != null"}
+            审批时间:{$jindu['money_time']|date='Ymd H:i:s',###}
+            {/if}
+
+
+
+
+
+        </td>
+    </tr>
+
+    {/if}
+    {/if}
+
+    <tr>
+        <td>票据图片</td>
+        <td>
+            {volist name="$row['photo']" id="v"  }
+            <img src="{$v|htmlentities}" width="100" class="img-thumbnail" data-tips-image >&nbsp&nbsp
+            {/volist}
+        </td>
+    <tr>
+        {if condition="$jindu != ''"}
+    <tr>
+        <td>批注</td>
+        <td>
+
+
+            <div class="form-group">
+<!--                <label class="control-label col-xs-12 col-sm-2">批注:</label>-->
+                <div class="col-xs-12 col-sm-12">
+                    <input id="c-ps" class="form-control" name="row[ps]" type="text" value="{$jindu.ps|htmlentities}" disabled>
+                </div>
+            </div>
+        </td>
+    <tr>
+{/if}
+    </tbody>
+</table>
+
+<div id="ShowImage_Form" class="modal hide">
+    <div class="modal-header">
+        <button data-dismiss="modal" class="close" type="button"></button>
+    </div>
+    <div class="modal-body">
+        <div id="img_show">
+        </div>
+    </div>
+</div>
+
+
+
+        <div class="form-group layer-footer">
+            <label class="control-label col-xs-12 col-sm-2"></label>
+            <div class="col-xs-12 col-sm-8">
+                <button type="reset" class="btn btn-primary btn-embossed btn-close" onclick="Layer.closeAll();">关闭</button>
+<!--                <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>-->
+
+            </div>
+        </div>
+
+
+
+    </ul>
+
+
+
+
+
+</form>
+
+
+
+
+<script type="text/javascript">
+
+    function doPrint() {
+
+
+//获取整个打印前页面，作用是打印后恢复。
+        bdhtml = window.document.body.innerHTML;
+        sprnstr = "<!--startprint-->"; //标记打印区域开始
+        eprnstr = "<!--endprint-->";//标记打印区域结束
+//获取要打印的区域, 从标记开始处向下获取。
+        prnhtml = bdhtml.substr(bdhtml.indexOf(sprnstr) + 17);//17表示光标右移17个单位
+//删除结束标记后面的内容。
+        prnhtml = prnhtml.substring(0, prnhtml.indexOf(eprnstr));
+//将页面显示要打印的内容。
+        window.document.body.innerHTML = prnhtml;
+//打印整个页面
+        window.print(prnhtml);
+//恢复打印前的页面
+        window.document.body.innerHTML = bdhtml;
+        const setting = {
+            "text": "审核通过", // 水印内容
+            "innerDate": true, // 在水印下方增加日期
+            "width": 110 // 水印宽度
+        };
+        // 渲染
+        watermark.build(setting);
+
+    }
+
+
+    const watermark = function () {
+        return {
+            build: function(arg) {
+                // 获取页面宽度
+                let maxWidth = Math.max(document.body.scrollWidth, window.screen.width) - 20;
+                // 获取页面高度
+                let maxHeight = Math.max(document.body.scrollHeight, document.body.clientHeight) + 100;
+                if (maxHeight === 0){
+                    console.info("该页面无敏感内容~");
+                    return;
+                }
+                const setting = {
+                    text: "水印",    // 默认水印内容
+                    beginX: 50,              // 默认起始x坐标
+                    endX: 0,                 // 默认结束x坐标
+                    beginY: 50,              // 默认起始y坐标
+                    endY: 0,                 // 默认结束y坐标
+                    intervalX: 150,          // 默认横向间隔宽度
+                    intervalY: 100,          // 默认纵向间隔高度
+                    opacity: 0.3,            // 字体透明度
+                    angle: 20,               // 字体倾斜度
+                    fontsize: '15px',        // 字体大小
+                    fontFamily: '微软雅黑',   // 字体
+                    width: 100,              // 水印（每个）宽度
+                    height: 80,              // 水印（每个）高度
+                    innerDate: false,        // 是否附带日期
+                };
+                // 默认变量与自定义变量结合
+                if (arguments.length ===1 && typeof arguments[0] === "object"){
+                    const src = arguments[0] || {};
+                    for (const key in src){
+                        if (!src.hasOwnProperty(key) || !src[key]){
+                            continue;
+                        }
+                        for (const def in setting){
+                            if (key === def){
+                                setting[def] = src[key];
+                            }
+                        }
+                    }
+                }
+                // 计算列个数
+                const cols = parseInt((setting.intervalX + maxWidth - setting.beginX - setting.endX) / (setting.width + setting.intervalX) + "");
+                // 计算行个数
+                const rows = parseInt((setting.intervalY + maxHeight - setting.beginY - setting.endY) / (setting.height + setting.intervalY) + "");
+                // 水印内容附加日期
+                if (setting.innerDate){
+                    const date = new Date();
+                    setting.text = [setting.text, "<br>", date.getFullYear(), "年", date.getMonth() + 1, "月", date.getDate(), "日"].join("");
+                }
+                const fragment = document.createDocumentFragment();
+                let x, y;
+                for (let i=0; i<rows; i++){
+                    y = setting.beginY + (setting.intervalY + setting.height) * i;
+                    for (let j=0; j<cols; j++){
+                        x = setting.beginX + (setting.width + setting.intervalX) * j;
+                        const element = document.createElement('div');
+                        element.id = 'watermark' + i + j;
+                        // 设置倾斜角
+                        element.style.MozTransform = "rotate(-" + setting.angle + "deg)";
+                        element.style.msTransform = "rotate(-" + setting.angle + "deg)";
+                        element.style.OTransform = "rotate(-" + setting.angle + "deg)";
+                        element.style.transform = "rotate(-" + setting.angle + "deg)";
+                        element.style.position = "absolute";
+                        element.style.left = x + 'px';
+                        element.style.top = y + 'px';
+                        element.style.overflow = "hidden";
+                        element.style.zIndex = "9999";
+                        element.style.pointerEvents = 'none';
+                        element.style.opacity = setting.opacity;
+                        element.style.fontSize = setting.fontsize;
+                        element.style.fontFamily = setting.fontFamily;
+                        element.style.color = '#aaa';
+                        element.style.textAlign = "center";
+                        element.style.width = setting.width + 'px';
+                        element.style.height = setting.height + 'px';
+                        element.style.display = "block";
+                        element.innerHTML = setting.text;
+                        fragment.appendChild(element);
+                    }
+                }
+                document.body.appendChild(fragment);
+            }
+        }
+    }();
+
+
+</script>
+
+<!--endprint-->

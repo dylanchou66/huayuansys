@@ -1,0 +1,88 @@
+define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefined, Backend, Table, Form) {
+
+    var Controller = {
+        index: function () {
+            // 初始化表格参数配置
+            Table.api.init({
+                extend: {
+                    index_url: 'card/index' + location.search,
+                    add_url: 'card/add',
+                    edit_url: 'card/edit',
+                    del_url: '',
+                    multi_url: 'card/multi',
+                    import_url: 'card/import',
+                    table: 'card',
+                }
+            });
+
+            var table = $("#table");
+
+            // 初始化表格
+            table.bootstrapTable({
+                url: $.fn.bootstrapTable.defaults.extend.index_url,
+                pk: 'id',
+                sortName: 'id',
+                columns: [
+                    [
+                        // {checkbox: true},
+                        // {field: 'id', title: __('Id'),operate:false},
+                        {field: 'card_type', title: __('Card_type'), searchList: {"0":__('Card_type 0'),"1":__('Card_type 1')},custom: {"0": "blue", "1": "orange"}, formatter: Table.api.formatter.normal},
+                        {field: 'card_master', title: __('Card_master'), searchList: {"0":__('Card_master 0'),"1":__('Card_master 1')}, custom: {"0": "green", "1": "red"},formatter: Table.api.formatter.normal},
+                        {field: 'card_number', title: __('Card_number'), operate: 'LIKE'},
+                        // {field: 'createtime', title: __('Createtime'), operate:'RANGE', addclass:'datetimerange', autocomplete:false, formatter: Table.api.formatter.datetime},
+                        // {field: 'adduser', title: __('Adduser')},
+                        // {field: 'useuser', title: __('Useuser')},
+                        {field: 'admin.nickname', title: __('Admin.nickname'), formatter: function(value,row) {
+                                if ( row['useuser'] == null) {
+                                    var html = "";
+                                    html += '未领用';
+                                    return html;
+                                }else{
+                                    var html = "";
+                                    html += row['admin']['nickname'];
+                                    return html;
+                                }
+                            },operate:false},
+
+                        {field: 'status', title: __('Status'), searchList: {"0":__('Status 0'),"1":__('Status 1'),custom: {"0": "green", "1": "red"}}, formatter: Table.api.formatter.status},
+                        // {field: 'updatetime', title: __('Updatetime'), operate:'RANGE', addclass:'datetimerange', autocomplete:false, formatter: Table.api.formatter.datetime},
+                        // {field: 'admin.id', title: __('Admin.id')},
+                        // {field: 'admin.username', title: __('Admin.username'), operate: 'LIKE'},
+                        // {field: 'admin.password', title: __('Admin.password'), operate: 'LIKE'},
+                        // {field: 'admin.salt', title: __('Admin.salt'), operate: 'LIKE'},
+                        // {field: 'admin.avatar', title: __('Admin.avatar'), operate: 'LIKE', events: Table.api.events.image, formatter: Table.api.formatter.image},
+                        // {field: 'admin.email', title: __('Admin.email'), operate: 'LIKE'},
+                        // {field: 'admin.loginfailure', title: __('Admin.loginfailure')},
+                        // {field: 'admin.logintime', title: __('Admin.logintime'), operate:'RANGE', addclass:'datetimerange', autocomplete:false, formatter: Table.api.formatter.datetime},
+                        // {field: 'admin.loginip', title: __('Admin.loginip'), operate: 'LIKE'},
+                        // {field: 'admin.createtime', title: __('Admin.createtime'), operate:'RANGE', addclass:'datetimerange', autocomplete:false, formatter: Table.api.formatter.datetime},
+                        // {field: 'admin.updatetime', title: __('Admin.updatetime'), operate:'RANGE', addclass:'datetimerange', autocomplete:false, formatter: Table.api.formatter.datetime},
+                        // {field: 'admin.token', title: __('Admin.token'), operate: 'LIKE'},
+                        // {field: 'admin.status', title: __('Admin.status'), operate: 'LIKE', formatter: Table.api.formatter.status},
+                        // {field: 'admin.dict_values_id', title: __('Admin.dict_values_id')},
+                        // {field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate, formatter: Table.api.formatter.operate}
+                        {field: 'operate', title: __('Operate'), table: table,buttons: [
+                                {name: 'edit', text: '领用人', title: '领用人', icon: 'fa fa-paint-brush', classname: 'btn btn-xs btn-info btn-dialog   ',extend:'data-area=\'["600px","500px"]\'', url: 'card/edit'}
+                            ], events: Table.api.events.operate, formatter: Table.api.formatter.operate},
+
+                    ]
+                ]
+            });
+
+            // 为表格绑定事件
+            Table.api.bindevent(table);
+        },
+        add: function () {
+            Controller.api.bindevent();
+        },
+        edit: function () {
+            Controller.api.bindevent();
+        },
+        api: {
+            bindevent: function () {
+                Form.api.bindevent($("form[role=form]"));
+            }
+        }
+    };
+    return Controller;
+});

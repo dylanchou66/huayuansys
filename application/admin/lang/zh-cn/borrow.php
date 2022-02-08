@@ -1,0 +1,33 @@
+<?php
+
+return [
+    'Adduser'             => '申请人 ',
+    'Money'               => '借支金额',
+    'Money_type'          => '记账类型',
+    'Money_type 0'        => '借',
+    'Money_type 1'        => '还',
+    'Addtime'             => '记账时间',
+    'Matter_id'           => '事项类型',
+    'Matter'              => '事项说明',
+    'Photo_images'        => '上传图片',
+    'Project_id'          => '项目名',
+    'Borrow_id'           => '借支申请号',
+    'Orders_id'           => '关联申请',
+    'Status'              => '状态',
+    'Status 0'            => '待审核',
+    'Status 1'            => '审核通过',
+    'Status 2'            => '驳回',
+    'Status 3'            => '完成',
+    'Admin.id'            => 'ID',
+    'Admin.nickname'      => '昵称',
+    'Admin.email'         => '电子邮箱',
+    'Project.company'     => '公司',
+    'Project.project'     => '项目',
+    'Dictvalues.name'     => '名字',
+    'Dictvalues.status'   => '状态',
+    'Dictvalues.status 0' => '禁用',
+    'Dictvalues.status 1' => '启用',
+    'Type 0' => '借支款',
+    'Type 1' => '备用金',
+
+];

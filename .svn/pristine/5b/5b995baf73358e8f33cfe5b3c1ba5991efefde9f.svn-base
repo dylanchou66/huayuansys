@@ -1,0 +1,385 @@
+<script src="https://cdn.staticfile.org/jquery/2.1.4/jquery.min.js"></script>
+
+<form id="add-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+    <input type="hidden" name="qk" value="{$qk}">
+    <input type="hidden" id="jz_bz" name="row[jz_beizhu]">
+    <input type="hidden" id="card_id" name="row[card_id]">
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Pay_type_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-pay_type_id" data-rule="required" onchange="show_sub()" data-source="dict_v/index" data-params='{"custom[status]":"1","custom[dict_id]":"33"}' class="form-control selectpage" name="row[pay_type_id]" type="text" value="" >
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Car_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-car_id" data-rule="required" data-source="car/index" data-params='{"custom[car_type_id]":["NOT IN","56,199"],"custom[status]":"1"}' data-field="car" class="form-control selectpage" name="row[car_id]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">司机:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-siji_id" data-rule="required;remote(card/bind)" onchange="show_siji()" data-source="dict_v/index"  data-params='{"custom[status]":"1","custom[dict_id]":"36"}' class="form-control selectpage" name="row[siji_id]" type="text" value="">
+        </div>
+    </div>
+
+    <div class="form-group" id="jiaqizhan" style="display: none">
+        <label class="control-label col-xs-12 col-sm-2">加气站:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-jiaqizhan" data-rule="" onchange="show_qz()" data-source="card/index"  data-params='{"custom[status]":"0","custom[card_master]":"1","custom[card_type]":"1"}' data-field="card_number" class="form-control selectpage" name="row[jiaqizhan_id]" type="text" value="">
+        </div>
+    </div>
+
+<!--    <div class="form-group" id="jiaqizhan" style="display: none">-->
+<!--        <label class="control-label col-xs-12 col-sm-2">加气站:</label>-->
+<!--        <div class="col-xs-12 col-sm-8">-->
+<!--            <input id="c-jiaqizhan_id" data-rule=""  data-source="dict_v/index"  data-params='{"custom[status]":"1","custom[dict_id]":"37"}' class="form-control selectpage" name="row[jiaqizhan_id]" type="text" value="">-->
+<!--        </div>-->
+<!--    </div>-->
+
+    <div class="form-group" id="danjia" style="display: none">
+        <label class="control-label col-xs-12 col-sm-2">单价（油/气）:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-jqdanjia_id"   data-rule="" class="form-control" name="row[jqdanjia_id]" type="number" value="">
+        </div>
+    </div>
+
+    <div class="form-group" id="shuliang" style="display: none">
+        <label class="control-label col-xs-12 col-sm-2">数量（升/立方）:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-jqshuliang_id"  data-rule="" class="form-control" name="row[jqshuliang_id]" type="number" value="">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Money')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="ttlmoney" data-rule="required" class="form-control" name="row[money]" type="number">
+        </div>
+    </div>
+
+    <div class=" form-group" style="display:none" id="card_yue">
+        <label class="control-label col-xs-12 col-sm-2"><font color="red">{:__('卡余额')}:</font></label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="card_yue_val" class="form-control" name="" type="number" readonly>
+        </div>
+    </div>
+
+    <div class=" form-group" id="card_info" style="display:none">
+        <label class="control-label col-xs-12 col-sm-2">{:__('卡信息')}:</label>
+
+        <div class="col-xs-12 col-sm-8">
+            <font color="red"><span id="card_info_val" style="display: none" ></span></font>
+            <span id="qi_info_val" style="display: none" >
+        </div>
+    </div>
+
+    <div class=" form-group"  id="check_button">
+        <label class="control-label col-xs-12 col-sm-2">{:__('选项')}:</label>
+
+        <div class="col-xs-12 col-sm-8">
+            <input id="hxcheck" name="row[borrow]" type="checkbox" value="1" style="text-align:center; vertical-align:middle"> 核销
+            <font color="red"><span id="info" style="display: none" ></span></font>
+        </div>
+        <div class="col-xs-12 col-sm-8">
+            <input id="cmmcheck" name="row[cmm_status]" type="checkbox" value="1" style="text-align:center; vertical-align:middle"> 运满满已录
+            <font color="red"><span id="cmm" style="display: none" ></span></font>
+        </div>
+    </div>
+    <div class=" form-group" style="display:none" id="hx">
+        <label class="control-label col-xs-12 col-sm-2">{:__('核销')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="jz_qk" class="form-control" name="row[borrow_money]" type="number" readonly>
+        </div>
+    </div>
+    <div class=" form-group" style="display:none"id="jy">
+        <label class="control-label col-xs-12 col-sm-2">{:__('结余')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="jz_jy" class="form-control" name="row[car_cash]" type="number" readonly>
+        </div>
+    </div>
+
+    <div class="form-group" id="cmm_id" style="display: none">
+        <label class="control-label col-xs-12 col-sm-2">{:__('运满满订单号')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-cmm_id" data-rule=""  class="form-control" name="row[cmm_id]" type="text" value="">
+        </div>
+    </div>
+
+    <div class="form-group" id="fkfs">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Newtime')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-newtime" data-rule="required" class="form-control datetimepicker" data-date-format="YYYY-MM-DD" data-use-current="true" name="row[newtime]" type="text" value="{:date('Y-m-d H:i:s')}">
+        </div>
+    </div>
+    <div class="form-group" id="zhxx">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Payinfo_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-payinfo_id" data-rule="" data-source="dict_v/index" data-params='{"custom[status]":"1","custom[dict_id]":"34"}' class="form-control selectpage" name="row[payinfo_id]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group" id="yonghu">
+        <label class="control-label col-xs-12 col-sm-2">{:__('User')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-user" data-rule="" class="form-control" name="row[user]" type="text">
+        </div>
+    </div>
+    <div class="form-group" id="number">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Nember')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-nember" data-rule="" class="form-control" name="row[nember]" type="text">
+        </div>
+    </div>
+    <div class="form-group" id="bank">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Bank')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-bank" data-rule="" class="form-control" name="row[bank]" type="text">
+        </div>
+    </div>
+    <div class="form-group" id="fapiao">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Invoice')}:</label>
+        <div class="col-xs-12 col-sm-8">
+
+            <select  id="c-invoice" data-rule="required" class="form-control selectpicker" name="row[invoice]">
+                {foreach name="invoiceList" item="vo"}
+                <option value="{$key}" {in name="key" value=""}selected{/in}>{$vo}</option>
+                {/foreach}
+            </select>
+
+        </div>
+    </div>
+    <div class="form-group" id="free">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Free_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-free_id" data-rule="" data-source="dict_v/index" data-params='{"custom[status]":"1","custom[dict_id]":"23"}' class="form-control selectpage" name="row[free_id]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Photoimages')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="input-group">
+                <input id="c-photoimages" data-rule="required" class="form-control" size="50" name="row[photoimages]" type="text" readonly>
+                <div class="input-group-addon no-border no-padding">
+                    <span><button type="button" id="faupload-photoimages" class="btn btn-danger faupload" data-input-id="c-photoimages" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp" data-multiple="true" data-preview-id="p-photoimages"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+<!--                    <span><button type="button" id="fachoose-photoimages" class="btn btn-primary fachoose" data-input-id="c-photoimages" data-mimetype="image/*" data-multiple="true"><i class="fa fa-list"></i> {:__('Choose')}</button></span>-->
+                </div>
+                <span class="msg-box n-right" for="c-photoimages"></span>
+            </div>
+            <ul class="row list-inline faupload-preview" id="p-photoimages"></ul>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Ps')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <textarea id="c-ps" class="form-control " rows="5" name="row[ps]" cols="50"></textarea>
+        </div>
+    </div>
+    <!--    <div class="form-group">-->
+    <!--        <label class="control-label col-xs-12 col-sm-2">{:__('Adduser')}:</label>-->
+    <!--        <div class="col-xs-12 col-sm-8">-->
+    <!--            <input id="c-adduser" data-rule="required" class="form-control" name="row[adduser]" type="number">-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <!--    <div class="form-group">-->
+    <!--        <label class="control-label col-xs-12 col-sm-2">{:__('Status')}:</label>-->
+    <!--        <div class="col-xs-12 col-sm-8">-->
+    <!--            -->
+    <!--            <div class="radio">-->
+    <!--            {foreach name="statusList" item="vo"}-->
+    <!--            <label for="row[status]-{$key}"><input id="row[status]-{$key}" name="row[status]" type="radio" value="{$key}" {in name="key" value="0"}checked{/in} /> {$vo}</label> -->
+    <!--            {/foreach}-->
+    <!--            </div>-->
+
+    <!--        </div>-->
+    <!--    </div>-->
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed disabled">{:__('OK')}</button>
+            <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+        </div>
+    </div>
+</form>
+
+
+<script language="javascript">
+        $(document).ready(function() {
+            var qk = $('input[name="qk"]').val();
+            $('#ttlmoney').bind('input propertychange', function() {
+                var ttl = $(this).val();
+                var res = ttl-qk;
+                //按照不同情况显示内容
+                if(res < '0'){
+                    var info = '核销明细:借支欠款'+qk+'元,核销'+$(this).val()+'元,结余'+res+'元。';
+                    $('#jz_qk').val($(this).val());
+                }else if(res > '0'){
+                    var info = '核销明细:借支欠款'+qk+'元,核销'+qk+'元,报销'+res+'元。';
+                    $('#jz_qk').val(qk);
+                }else{
+                    var info = '核销明细:借支欠款'+qk+'元,核销'+ttl+'元,结余'+res+'元。';
+                    $('#jz_qk').val(qk);
+
+                }
+                $('#jz_jy').val(res);
+                $('#info').text(info);
+                $('#jz_bz').val(info);
+            });
+            $("#hxcheck").click(function(){
+                var check = $("#hxcheck").prop('checked');
+                if(check == true){
+                    $('#hx').css('display','block');
+                    $('#info').css('display','block');
+                    $('#jy').css('display','block');
+                }else{
+                    $('#hx').css('display','none');
+                    $('#info').css('display','none');
+                    $('#jy').css('display','none');
+                }
+            });
+            //车满满
+            $("#cmmcheck").click(function(){
+                var check = $("#cmmcheck").prop('checked');
+                if(check == true){
+
+                    $('#cmm_id').css('display','block');
+                }else{
+
+                    $('#cmm_id').css('display','none');
+                }
+            });
+        });
+
+        object.onchange = function(){show_sub};
+        function show_sub() {
+            var value = $('.sp_hidden').val();
+            if(value == 244){
+                //加油加气出现
+                var dj = $("#danjia");
+                var sl = $("#shuliang");
+                $('#card_yue').css('display','block');
+                $('#card_info').css('display','block');
+                $('#card_info_val').css('display','block');
+                $('#jiaqizhan').css('display','none');
+
+                dj.css('display','block');
+                sl.css('display','block');
+                $('#check_button').css('display','none');
+                $('#zhxx').css('display','none');
+                $('#yonghu').css('display','none');
+                $('#number').css('display','none');
+                $('#bank').css('display','none');
+                $('#fapiao').css('display','none');
+                $('#free').css('display','none');
+                $("#c-siji_id").removeAttr("data-rule")
+                $("#c-siji_id").attr("data-rule", "required;remote(card/bind)");
+            }else if(value == 243){
+                $('#jiaqizhan').css('display','block');
+                var dj = $("#danjia");
+                var sl = $("#shuliang");
+                dj.css('display','block');
+                sl.css('display','block');
+                $('#card_yue').css('display','none');
+                $('#card_info').css('display','none');
+                $('#card_info_val').css('display','none');
+                $('#check_button').css('display','none');
+                $('#zhxx').css('display','none');
+                $('#yonghu').css('display','none');
+                $('#number').css('display','none');
+                $('#bank').css('display','none');
+                $('#fapiao').css('display','none');
+                $('#free').css('display','none');
+                $("#c-siji_id").removeAttr("data-rule")
+                $("#c-siji_id").attr("data-rule", "required;remote(card/bind)");
+            }else{
+                //调整验证规则
+                $("#c-siji_id").removeAttr("data-rule")
+                $("#c-siji_id").attr("data-rule", "required");
+                var dj = $("#danjia");
+                var sl = $("#shuliang");
+                $('#card_yue').css('display','none');
+                $('#card_info').css('display','none');
+                $('#card_info_val').css('display','none');
+                // var jqz = $("#jiaqizhan");
+                // jqz.css('display','none');
+                $('#check_button').css('display','block');
+                dj.css('display','none');
+                sl.css('display','none');
+                $('#fkfs').css('display','block');
+                $('#zhxx').css('display','block');
+                $('#yonghu').css('display','block');
+                $('#number').css('display','block');
+                $('#bank').css('display','block');
+                $('#fapiao').css('display','block');
+                $('#free').css('display','block');
+            }
+
+        }
+
+        //选择司机查询油卡信息
+        object.onchange = function(){show_siji};
+        function show_siji() {
+            var type_pay = $('.sp_hidden').val();
+            var siji = $('#c-siji_id').val();
+            var jq = $('#c-jiaqizhan').val();
+            if(type_pay == 244){
+                $.ajax({
+                    url: 'card/info/card_user/' + siji,
+                    // data: $(this).serialize(),
+                    success: function (data) {
+                        var card_number = data['card_number'];
+                        var card_yue = data['yue'];
+                        var card_id = data['id'];
+                        $('#card_yue_val').val(card_yue);
+                        $('#ttlmoney').bind('input propertychange', function () {
+                            var ttl = $(this).val();
+                            var res = card_yue - ttl;
+                            if (res >= 0) {
+                                var card_info = '卡:《' + card_number + '》余额' + card_yue + '元,扣费' + $(this).val() + '元,剩余' + res + '元。';
+                                $('#card_info_val').text(card_info);
+                                $('#jz_bz').val(card_info);
+                                $('#card_id').val(card_id);
+                            } else if (res < 0) {
+                                var card_info = '超出余额，卡:《' + card_number + '》余额' + card_yue + '元,扣费' + $(this).val() + '元,剩余' + res + '元。';
+                                $('#card_info_val').text(card_info);
+                                $('#jz_bz').css('display', 'none');
+                            } else {
+                                var card_info = '未绑定卡';
+                                $('#card_info_val').text(card_info);
+                                $('#jz_bz').css('display', 'none');
+                            }
+                        });
+                    }
+                });
+            }
+        }
+
+        //查加气站信息
+        object.onchange = function(){show_qz};
+        function show_qz() {
+            var type_pay = $('.sp_hidden').val();
+            var jq = $('#c-jiaqizhan').val();
+            if(type_pay == 243){
+                $.ajax({
+                    url: 'card/jq/z_id/'+jq,
+                    // data: $(this).serialize(),
+                    success: function (data) {
+                        var card_number = data['card_number'];
+                        var card_id = data['id'];
+                        $('#ttlmoney').bind('input propertychange', function () {
+                            var card_info = '气站:《' + card_number + '》,扣费' + $(this).val() + '元。';
+                            // $('#qi_info_val').text(card_info);
+                            $('#jz_bz').val(card_info);
+                            $('#card_id').val(card_id);
+                            $('#jz_bz').css('display', 'none');
+
+                        });
+                    }
+                });
+
+            }
+        }
+
+
+
+</script>

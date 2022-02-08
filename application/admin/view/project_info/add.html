@@ -1,0 +1,137 @@
+<form id="add-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Project_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-project_id" data-rule="required" data-source="project/index" data-field="project" class="form-control selectpage" name="row[project_id]" type="text" value="">
+        </div>
+    </div>
+
+    <!--    <div class="form-group">-->
+
+    <!--        <div class="col-xs-12 col-sm-12">-->
+    <!--            <HR style="border:1 dashed #987cb9" width="80%"color=#987cb9 SIZE=1>-->
+    <!--        </div>-->
+
+    <!--    </div>-->
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('From_name')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-from_name" class="form-control" name="row[from_name]" type="text">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('From_phone')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-from_phone" class="form-control" name="row[from_phone]" type="text">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('From_province_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <!--            <input id="c-from_province_id" data-rule="required" data-source="from/province/index" class="form-control selectpage" name="row[from_province_id]" type="text" value="">-->
+            <div class="form-inline" data-toggle="cxselect" data-selects="province,city,area">
+                <select class="province form-control" name="row[from_province_id]" data-url="ajax/area"></select>
+                <select class="city form-control" name="row[from_city_id]" data-query-name="province" data-url="ajax/area"></select>
+                <select class="area form-control" name="row[from_area_id]" data-query-name="city" data-url="ajax/area"></select>
+            </div>
+        </div>
+    </div>
+    <!--    <div class="form-group">-->
+    <!--        <label class="control-label col-xs-12 col-sm-2">{:__('From_city_id')}:</label>-->
+    <!--        <div class="col-xs-12 col-sm-8">-->
+    <!--            <input id="c-from_city_id" data-rule="required" data-source="from/city/index" class="form-control selectpage" name="row[from_city_id]" type="text" value="">-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <!--    <div class="form-group">-->
+    <!--        <label class="control-label col-xs-12 col-sm-2">{:__('From_area_id')}:</label>-->
+    <!--        <div class="col-xs-12 col-sm-8">-->
+    <!--            <input id="c-from_area_id" data-rule="required" data-source="from/area/index" class="form-control selectpage" name="row[from_area_id]" type="text" value="">-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('From_address')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-from_address" class="form-control" name="row[from_address]" type="text">
+        </div>
+    </div>
+
+    <!--    <div class="form-group">-->
+
+    <!--        <div class="col-xs-12 col-sm-12">-->
+    <!--            <HR style="border:1 dashed #987cb9" width="80%"color=#987cb9 SIZE=1>-->
+    <!--        </div>-->
+
+    <!--    </div>-->
+
+    <!--    <div class="form-group">-->
+    <!--        <label class="control-label col-xs-12 col-sm-2">{:__('To_name')}:</label>-->
+    <!--        <div class="col-xs-12 col-sm-8">-->
+    <!--            <input id="c-to_name" class="form-control" name="row[to_name]" type="text">-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <!--    <div class="form-group">-->
+    <!--        <label class="control-label col-xs-12 col-sm-2">{:__('To_phone')}:</label>-->
+    <!--        <div class="col-xs-12 col-sm-8">-->
+    <!--            <input id="c-to_phone" class="form-control" name="row[to_phone]" type="text">-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <!--    <div class="form-group">-->
+    <!--        <label class="control-label col-xs-12 col-sm-2">{:__('To_province_id')}:</label>-->
+    <!--        <div class="col-xs-12 col-sm-8">-->
+    <!--&lt;!&ndash;            <input id="c-to_province_id" data-rule="required" data-source="to/province/index" class="form-control selectpage" name="row[to_province_id]" type="text" value="">&ndash;&gt;-->
+    <!--            <div class="form-inline" data-toggle="cxselect" data-selects="province,city,area">-->
+    <!--                <select class="province form-control" name="row[to_province_id]" data-url="ajax/area"></select>-->
+    <!--                <select class="city form-control" name="row[to_city_id]" data-query-name="province" data-url="ajax/area"></select>-->
+    <!--                <select class="area form-control" name="row[to_area_id]" data-query-name="city" data-url="ajax/area"></select>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <!--    <div class="form-group">-->
+    <!--        <label class="control-label col-xs-12 col-sm-2">{:__('To_city_id')}:</label>-->
+    <!--        <div class="col-xs-12 col-sm-8">-->
+    <!--            <input id="c-to_city_id" data-rule="required" data-source="to/city/index" class="form-control selectpage" name="row[to_city_id]" type="text" value="">-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <!--    <div class="form-group">-->
+    <!--        <label class="control-label col-xs-12 col-sm-2">{:__('To_area_id')}:</label>-->
+    <!--        <div class="col-xs-12 col-sm-8">-->
+    <!--            <input id="c-to_area_id" data-rule="required" data-source="to/area/index" class="form-control selectpage" name="row[to_area_id]" type="text" value="">-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <!--    <div class="form-group">-->
+    <!--        <label class="control-label col-xs-12 col-sm-2">{:__('To_address')}:</label>-->
+    <!--        <div class="col-xs-12 col-sm-8">-->
+    <!--            <input id="c-to_address" class="form-control" name="row[to_address]" type="text">-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <!--    <div class="form-group">-->
+    <!--        <label class="control-label col-xs-12 col-sm-2">{:__('Status_switch')}:</label>-->
+    <!--        <div class="col-xs-12 col-sm-8">-->
+    <!--            -->
+    <!--            <input  id="c-status_switch" name="row[status_switch]" type="hidden" value="0">-->
+    <!--            <a href="javascript:;" data-toggle="switcher" class="btn-switcher" data-input-id="c-status_switch" data-yes="1" data-no="0" >-->
+    <!--                <i class="fa fa-toggle-on text-success fa-flip-horizontal text-gray fa-2x"></i>-->
+    <!--            </a>-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <!--    <div class="form-group">-->
+    <!--        <label class="control-label col-xs-12 col-sm-2">{:__('Weigh')}:</label>-->
+    <!--        <div class="col-xs-12 col-sm-8">-->
+    <!--            <input id="c-weigh" class="form-control" name="row[weigh]" type="text">-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <!--    <div class="form-group">-->
+    <!--        <label class="control-label col-xs-12 col-sm-2">{:__('Adduser')}:</label>-->
+    <!--        <div class="col-xs-12 col-sm-8">-->
+    <!--            <input id="c-adduser" class="form-control" name="row[adduser]" type="number">-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed disabled">{:__('OK')}</button>
+            <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+        </div>
+    </div>
+</form>

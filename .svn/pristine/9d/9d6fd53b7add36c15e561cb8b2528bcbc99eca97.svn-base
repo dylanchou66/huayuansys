@@ -1,0 +1,287 @@
+
+
+
+<form id="add-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="" >
+    <!--startprint-->
+<table class="table table-striped" >
+    <thead>
+    <tr>
+        <th>{:__('Title')}</th>
+        <th>{:__('Content')}</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>支付单号</td>
+        <td>{$jindu['one_id']}</td>
+    </tr>
+    <tr>
+        <td>车满满订单号</td>
+        <td>{$row['cmm_id']}</td>
+    </tr>
+    <tr>
+        <td>逗号订单号</td>
+        <td>{$row['dh_id']}</td>
+    </tr>
+
+    <tr>
+        <td>申请人</td>
+        <td>{$row['username']|htmlentities}</td>
+    </tr>
+    <tr>
+        <td>业务类型</td>
+        <td >{$row['ptname']|htmlentities}</td>
+    </tr>
+    <tr>
+        <td>项目名</td>
+        <td >{$row['pname']|htmlentities}</td>
+    </tr>
+
+    <tr>
+        <td>费用所属</td>
+        <td>{$row['payname']|htmlentities}</td>
+    </tr>
+
+    <tr>
+        <td>记账类型</td>
+        <td>
+            {switch name="$row['type_id']" }
+            {case value="0"}费用垫付{/case}
+
+            {case value="1"}成本支出{/case}
+            {default /}
+
+            {/switch}
+
+
+
+        </td>
+    </tr>
+
+
+    <tr>
+        <td>付款金额</td>
+        <td >¥&nbsp&nbsp<b >{$row['pay_money']|htmlentities}</b>&nbsp&nbsp元</td>
+    </tr>
+
+    <tr>
+        <td>垫付对象</td>
+        <td >{$row['pc']}---{$row['user']|htmlentities}</td>
+    </tr>
+
+    <tr>
+        <td>备注</td>
+        <td>{$row['beizhu']|htmlentities}</td>
+
+
+    </tr>
+
+    {if condition="$row['pay_money'] != 0"}
+    <tr>
+        <td>审核进度</td>
+        <td>
+            <div class="layui-timeline-content layui-text">
+                {if condition="$jindu['leder_id'] != 24 "}
+                <div class="layui-timeline-title">
+
+                    {$jindu['lur']}:
+                    {switch name="$jindu['leder_status']" }
+
+                    {case value="1" }<font color="green">同意</font>{/case}
+
+                    {case value="2"}<font color="red">驳回</font>{/case}
+
+                    {default /}<font color="blue">审批中</font>
+
+                    {/switch}</div>
+                {if condition="$jindu['leder_time'] != null "}
+                审批时间:{$jindu['order_time']|date='Ymd H:i:s',###}
+                {/if}
+                {/if}
+            </div>
+
+
+
+
+
+
+            <div class="layui-timeline-content layui-text">
+                {if condition="$jindu['order_id'] != 24 "}
+                <div class="layui-timeline-title">{$jindu['our']}:
+                    {switch name="$jindu['order_status']" }
+
+                    {case value="1" }<font color="green">同意</font>{/case}
+
+                    {case value="2"}<font color="red">驳回</font>{/case}
+
+                    {default /}<font color="blue">审批中</font>
+
+                    {/switch}</div>
+                {if condition="$jindu['order_time'] != null"}
+                审批时间:{$jindu['order_time']|date='Ymd H:i:s',###}
+                {/if}
+
+                {/if}
+            </div>
+
+
+
+
+
+            <hr/>
+            <div class="layui-timeline-content layui-text">
+                <div class="layui-timeline-title">{$jindu['bur']}:
+                    {switch name="$jindu['boss_status']" }
+
+                    {case value="1" }<font color="green">同意</font>{/case}
+
+                    {case value="2"}<font color="red">驳回</font>{/case}
+
+                    {default /}<font color="blue">审批中</font>
+
+                    {/switch}</div>
+            </div>
+            {if condition="$jindu['boss_time'] != null"}
+            审批时间:{$jindu['boss_time']|date='Ymd H:i:s',###}
+            {/if}
+
+
+          
+            <div class="layui-timeline-content layui-text">
+                <div class="layui-timeline-title">
+                    {if condition="$row['pay_money'] > 30000"}
+                    {$jindu['kur']}:
+                    {switch name="$jindu['king_status']" }
+
+                    {case value="1" }<font color="green">同意</font>{/case}
+
+                    {case value="2"}<font color="red">驳回</font>{/case}
+
+                    {default /}<font color="blue">审批中</font>
+
+                    {/switch}</div>
+                {/if}
+            </div>
+            {if condition="$jindu['king_time'] != null"}
+            审批时间:{$jindu['king_time']|date='Ymd H:i:s',###}
+            {/if}
+
+
+
+            <hr/>
+            <div class="layui-timeline-content layui-text">
+                <div class="layui-timeline-title">{$jindu['mur']}:
+                    {switch name="$jindu['money_status']" }
+
+                    {case value="1" }<font color="green">同意</font>{/case}
+
+                    {case value="2"}<font color="red">驳回</font>{/case}
+
+                    {default /}<font color="blue">审批中</font>
+
+                    {/switch}</div>
+            </div>
+
+            {if condition="$jindu['money_time'] != null"}
+            审批时间:{$jindu['money_time']|date='Ymd H:i:s',###}
+            {/if}
+
+
+
+
+
+        </td>
+    </tr>
+    {/if}
+    <!--endprint-->
+    <tr>
+        <td>票据图片</td>
+        <td>
+            {volist name="row['photo']" id="v"  }
+            <img src="{$v|htmlentities}" width="100" class="img-thumbnail" data-tips-image >&nbsp&nbsp
+
+            {/volist}
+        </td>
+    <tr>
+
+
+    <tr>
+        <td>操作</td>
+        <td>
+            <div class="form-group">
+                <!--                <label class="control-label col-xs-12 col-sm-2"><b>审批:</b></label>-->
+                <div class="col-xs-12 col-sm-12">
+
+                    <div class="radio" >
+                        <!--                        {:dump($row['pay_type_id'])}-->
+
+                        <label> <input  name="check" type="radio" value="1" /><b>同意</b></label>
+                        <label> <input  name="check" type="radio" value="2" /><b>驳回</b></label>
+                        </label>
+
+
+
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <!--                <label class="control-label col-xs-12 col-sm-2">批注:</label>-->
+                <div class="col-xs-12 col-sm-12">
+                    批注:<input id="c-ps" class="form-control" name="row[ps]" type="text" value="{$jindu.ps|htmlentities}">
+                </div>
+            </div>
+        </td>
+    <tr>
+
+    </tbody>
+</table>
+
+
+
+    <div id="ShowImage_Form" class="modal hide">
+        <div class="modal-header">
+            <button data-dismiss="modal" class="close" type="button"></button>
+        </div>
+        <div class="modal-body">
+            <div id="img_show">
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+
+            <button type="submit"  class="btn btn-success btn-embossed " >提交</button>
+            <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+
+        </div>
+    </div>
+
+
+
+    </ul>
+
+
+</form>
+
+
+
+
+
+
+
+
+

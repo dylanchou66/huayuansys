@@ -1,0 +1,110 @@
+<form id="add-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 10px;">
+        <legend>审核进度</legend>
+    </fieldset>
+    <ul class="layui-timeline">
+        <li class="layui-timeline-item">
+            <i class="layui-icon layui-timeline-axis"><b>订单号:HY-SH-C-{$row['addtime']|date='Ymd',###}-{$id|htmlentities}</b></i>
+            <div class="layui-timeline-content layui-text">
+                <div class="layui-timeline-title"></div>
+            </div>
+        </li>
+        <br/>
+        <li class="layui-timeline-item">
+            <i class="layui-icon layui-timeline-axis">{if condition="$row['leder_time'] != null"}
+                操作时间:{$row['leder_time']|date='Ymd H:m:i',###}
+                {/if}</i>
+            <div class="layui-timeline-content layui-text">
+                <div class="layui-timeline-title">直接主管:
+                    {switch name="$row['leder_status']" }
+
+                    {case value="1" }<font color="green">同意</font>{/case}
+
+                    {case value="2"}<font color="red">驳回</font>{/case}
+
+                    {default /}<font color="blue">审批中</font>
+
+                    {/switch}
+                </div>
+            </div>
+        </li>
+        <br/>
+        <li class="layui-timeline-item">
+            <i class="layui-icon layui-timeline-axis">
+                {if condition="$row['order_time'] != null"}
+                操作时间:{$row['order_time']|date='Ymd H:m:i',###}
+                {/if}
+
+            </i>
+            <div class="layui-timeline-content layui-text">
+                <div class="layui-timeline-title">部门经理:
+                    {switch name="$row['order_status']" }
+
+                    {case value="1" }<font color="green">同意</font>{/case}
+
+                    {case value="2"}<font color="red">驳回</font>{/case}
+
+                    {default /}<font color="blue">审批中</font>
+
+                    {/switch}</div>
+            </div>
+        </li>
+        <br/>
+        <li class="layui-timeline-item">
+            <i class="layui-icon layui-timeline-axis">{if condition="$row['boss_time'] != null"}
+                操作时间:{$row['boss_time']|date='Ymd H:m:i',###}
+                {/if}</i>
+            <div class="layui-timeline-content layui-text">
+                <div class="layui-timeline-title">总经理:
+                    {switch name="$row['boss_status']" }
+
+                    {case value="1" }<font color="green">同意</font>{/case}
+
+                    {case value="2"}<font color="red">驳回</font>{/case}
+
+                    {default /}<font color="blue">审批中</font>
+
+                    {/switch}</div>
+            </div>
+        </li>
+        <br/>
+        <li class="layui-timeline-item">
+            <i class="layui-icon layui-timeline-axis">{if condition="$row['money_time'] != null"}
+                操作时间:{$row['money_time']|date='Ymd H:m:i',###}
+                {/if}</i>
+            <div class="layui-timeline-content layui-text">
+                <div class="layui-timeline-title">财务经理:
+                    {switch name="$row['money_status']" }
+
+                    {case value="1" }<font color="green">同意</font>{/case}
+
+                    {case value="2"}<font color="red">驳回</font>{/case}
+
+                    {default /}<font color="blue">审批中</font>
+
+                    {/switch}</div>
+            </div>
+        </li>
+        <br/>
+        <li class="layui-timeline-item">
+            <i class="layui-icon layui-timeline-axis">{if condition="$row['pay_time'] != null"}
+                操作时间:  {$row['pay_time']|date='Ymd H:m:i',###}
+                {/if}</i>
+            <div class="layui-timeline-content layui-text">
+                <div class="layui-timeline-title">出纳操作:
+                    {switch name="$row['pay_status']" }
+
+                    {case value="1" }<font color="green">同意</font>{/case}
+
+                    {case value="2"}<font color="red">驳回</font>{/case}
+
+                    {default /}<font color="blue">审批中</font>
+
+                    {/switch}
+                </div>
+            </div>
+        </li>
+
+    </ul>
+
+</form>

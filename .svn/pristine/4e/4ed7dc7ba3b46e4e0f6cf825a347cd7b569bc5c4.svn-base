@@ -1,0 +1,85 @@
+<?php
+
+namespace app\admin\model;
+
+use think\Model;
+
+
+class Card extends Model
+{
+
+    
+
+    
+
+    // 表名
+    protected $name = 'card';
+    
+    // 自动写入时间戳字段
+    protected $autoWriteTimestamp = 'int';
+
+    // 定义时间戳字段名
+    protected $createTime = 'createtime';
+    protected $updateTime = 'updatetime';
+    protected $deleteTime = false;
+
+    // 追加属性
+    protected $append = [
+        'card_type_text',
+        'card_master_text',
+        'status_text'
+    ];
+    
+
+    
+    public function getCardTypeList()
+    {
+        return ['0' => __('Card_type 0'), '1' => __('Card_type 1')];
+    }
+
+    public function getCardMasterList()
+    {
+        return ['0' => __('Card_master 0'), '1' => __('Card_master 1')];
+    }
+
+    public function getStatusList()
+    {
+        return ['0' => __('Status 0'), '1' => __('Status 1')];
+    }
+
+
+    public function getCardTypeTextAttr($value, $data)
+    {
+        $value = $value ? $value : (isset($data['card_type']) ? $data['card_type'] : '');
+        $list = $this->getCardTypeList();
+        return isset($list[$value]) ? $list[$value] : '';
+    }
+
+
+    public function getCardMasterTextAttr($value, $data)
+    {
+        $value = $value ? $value : (isset($data['card_master']) ? $data['card_master'] : '');
+        $list = $this->getCardMasterList();
+        return isset($list[$value]) ? $list[$value] : '';
+    }
+
+
+    public function getStatusTextAttr($value, $data)
+    {
+        $value = $value ? $value : (isset($data['status']) ? $data['status'] : '');
+        $list = $this->getStatusList();
+        return isset($list[$value]) ? $list[$value] : '';
+    }
+
+
+
+
+    public function admin()
+    {
+        return $this->belongsTo('Admin', 'useuser', 'id', [], 'LEFT')->setEagerlyType(0);
+    }
+    public function dictv()
+    {
+        return $this->belongsTo('DictValues', 'useuser', 'id', [], 'LEFT')->setEagerlyType(0);
+    }
+}

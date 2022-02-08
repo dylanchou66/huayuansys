@@ -1,0 +1,224 @@
+<form id="add-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+    <!--startprint-->
+<table class="table table-striped" >
+    <thead>
+    <tr>
+        <th>{:__('Title')}</th>
+        <th>{:__('Content')}</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>申请单号</td>
+        <td>{$jindu['one_id']}</td>
+    </tr>
+    <tr>
+        <td>申请人</td>
+        <td>{$row['username']|htmlentities}</td>
+    </tr>
+    <tr>
+        <td>付款所属</td>
+        <td>{$row['pay_type_name']|htmlentities}</td>
+    </tr>
+    <tr>
+        <td>充值类型</td>
+        {if condition="$row['card_bill_type'] == 0"}
+        <td >油卡</td>
+        {else/}
+        <td >气卡</td>
+        {/if}
+    </tr>
+    <tr>
+        <td>充值账户</td>
+        <td >{$row['card_name']|htmlentities}</td>
+    </tr>
+
+    <tr>
+        <td>余额</td>
+        <td ><font color="red">¥&nbsp&nbsp<b >{$row['tmp_money']|htmlentities}</b>&nbsp&nbsp元</font></td>
+    </tr>
+
+    <tr>
+        <td>付款金额</td>
+        <td >¥&nbsp&nbsp<b >{$row['money']|htmlentities}</b>&nbsp&nbsp元</td>
+    </tr>
+
+
+    <tr>
+        <td>发生日期</td>
+        <td>{$row['addtime']|date='Y-m-d',###}</td>
+    </tr>
+
+
+
+
+    <tr>
+        <td>审核进度</td>
+        <td>
+            {if condition="$jindu['order_id'] != 24"}
+            <div class="layui-timeline-content layui-text">
+                <div class="layui-timeline-title">{$jindu['our']}:
+                    {switch name="$jindu['order_status']" }
+
+                    {case value="1" }<font color="green">同意</font>{/case}
+
+                    {case value="2"}<font color="red">驳回</font>{/case}
+
+                    {default /}<font color="blue">审批中</font>
+
+                    {/switch}</div>
+            </div>
+
+            {if condition="$jindu['order_time'] != null"}
+            审批时间:{$jindu['order_time']|date='Ymd H:i:s',###}
+            {/if}
+            <hr/>
+            {/if}
+
+
+            {if condition="$jindu['boss_id'] != 24"}
+
+            <div class="layui-timeline-content layui-text">
+                <div class="layui-timeline-title">{$jindu['bur']}:
+                    {switch name="$jindu['boss_status']" }
+
+                    {case value="1" }<font color="green">同意</font>{/case}
+
+                    {case value="2"}<font color="red">驳回</font>{/case}
+
+                    {default /}<font color="blue">审批中</font>
+
+                    {/switch}</div>
+            </div>
+            {if condition="$jindu['boss_time'] != null"}
+            审批时间:{$jindu['boss_time']|date='Ymd H:i:s',###}
+            {/if}
+            {/if}
+
+            {if condition="$jindu['king_id'] != 24"}
+            {if condition="$row['money'] >= 30000"}
+            <hr/>
+            <div class="layui-timeline-content layui-text">
+                <div class="layui-timeline-title">{$jindu['kur']}:
+                    {switch name="$jindu['king_status']" }
+
+                    {case value="1" }<font color="green">同意</font>{/case}
+
+                    {case value="2"}<font color="red">驳回</font>{/case}
+
+                    {default /}<font color="blue">审批中</font>
+
+                    {/switch}</div>
+            </div>
+            {/if}
+
+
+            {if condition="$jindu['king_time'] != null"}
+            审批时间:{$jindu['king_time']|date='Ymd H:i:s',###}
+            {/if}
+            {/if}
+
+            <hr/>
+            <div class="layui-timeline-content layui-text">
+                <div class="layui-timeline-title">{$jindu['mur']}:
+                    {switch name="$jindu['money_status']" }
+
+                    {case value="1" }<font color="green">同意</font>{/case}
+
+                    {case value="2"}<font color="red">驳回</font>{/case}
+
+                    {default /}<font color="blue">审批中</font>
+
+                    {/switch}</div>
+            </div>
+
+            {if condition="$jindu['money_time'] != null"}
+            审批时间:{$jindu['money_time']|date='Ymd H:i:s',###}
+            {/if}
+
+
+
+
+
+
+
+        </td>
+    </tr>
+    <!--endprint-->
+
+
+    <tr>
+        <td>操作</td>
+        <td>
+            <div class="form-group">
+<!--                <label class="control-label col-xs-12 col-sm-2"><b>审批:</b></label>-->
+                <div class="col-xs-12 col-sm-12">
+
+                    <div class="radio" >
+
+                        <label> <input  name="check" type="radio" value="1" /><b>同意</b></label>
+                        <label> <input  name="check" type="radio" value="2" /><b>驳回</b></label>
+                        </label>
+                    </div>
+
+                </div>
+            </div>
+
+
+        </td>
+    <tr>
+
+    </tbody>
+</table>
+
+
+
+<div id="ShowImage_Form" class="modal hide">
+    <div class="modal-header">
+        <button data-dismiss="modal" class="close" type="button"></button>
+    </div>
+    <div class="modal-body">
+        <div id="img_show">
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+        <div class="form-group layer-footer">
+            <label class="control-label col-xs-12 col-sm-2"></label>
+            <div class="col-xs-12 col-sm-8">
+
+                <button type="submit"  class="btn btn-success btn-embossed " >提交</button>
+                <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+
+            </div>
+        </div>
+
+
+
+    </ul>
+
+
+
+
+
+
+
+
+
+</form>
+
+
+
+
+
+

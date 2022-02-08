@@ -1,0 +1,231 @@
+<?php
+
+namespace app\admin\controller;
+
+use app\admin\model\DictValues;
+use app\common\controller\Backend;
+use think\Db;
+use app\admin\model\Check;
+use app\admin\model\Task;
+/**
+ * 
+ *
+ * @icon fa fa-circle-o
+ */
+class CarPay extends Backend
+{
+    /**
+     * CarPay模型对象
+     * @var \app\admin\model\CarPay
+     */
+    protected $model = null;
+
+    public function _initialize()
+    {
+        parent::_initialize();
+        $this->model = new \app\admin\model\CarPay;
+        $this->view->assign("invoiceList", $this->model->getInvoiceList());
+        $this->view->assign("statusList", $this->model->getStatusList());
+    }
+
+    public function import()
+    {
+        parent::import();
+    }
+
+    /**
+     * 默认生成的控制器所继承的父类中有index/add/edit/del/multi五个基础方法、destroy/restore/recyclebin三个回收站方法
+     * 因此在当前控制器中可不用编写增删改查的代码,除非需要自己控制这部分逻辑
+     * 需要将application/admin/library/traits/Backend.php中对应的方法复制到当前控制器,然后进行修改
+     */
+    
+
+    /**
+     * 查看
+     */
+    public function index()
+    {
+        //当前是否为关联查询
+        $this->relationSearch = true;
+        //设置过滤方法
+        $this->request->filter(['strip_tags', 'trim']);
+        if ($this->request->isAjax()) {
+            //如果发送的来源是Selectpage，则转发到Selectpage
+            if ($this->request->request('keyField')) {
+                return $this->selectpage();
+            }
+            list($where, $sort, $order, $offset, $limit) = $this->buildparams();
+
+            $list = $this->model
+                    ->with(['car','dictvalues','adduser','free'])
+                    ->where($where)
+                    ->order($sort, $order)
+                    ->paginate($limit);
+
+            foreach ($list as $row) {
+                
+                $row->getRelation('car')->visible(['id','car']);
+				$row->getRelation('dictvalues')->visible(['id','name']);
+                $row->getRelation('adduser')->visible(['id','nickname']);
+                $row->getRelation('free')->visible(['id','name']);
+            }
+
+            $result = array("total" => $list->total(), "rows" => $list->items());
+
+            return json($result);
+        }
+        return $this->view->fetch();
+    }
+
+    //添加方法，写入审核进度表
+    /**
+     * 添加
+     */
+
+//    //写入任务审核表调取方法
+//$T = new Task;
+//$T->task($params);exit;
+    public function add()
+    {
+        if ($this->request->isPost()) {
+            $params = $this->request->post("row/a");
+            $params['adduser'] = $this->auth->id;
+            if ($params) {
+                $params = $this->preExcludeFields($params);
+
+                if ($this->dataLimit && $this->dataLimitFieldAutoFill) {
+                    $params[$this->dataLimitField] = $this->auth->id;
+                }
+                $result = false;
+                Db::startTrans();
+                try {
+                    //是否采用模型验证
+                    if ($this->modelValidate) {
+                        $name = str_replace("\\model\\", "\\validate\\", get_class($this->model));
+                        $validate = is_bool($this->modelValidate) ? ($this->modelSceneValidate ? $name . '.add' : $name) : $this->modelValidate;
+                        $this->model->validateFailException(true)->validate($validate);
+                    }
+                    $result = $this->model->allowField(true)->save($params);
+                    Db::commit();
+                } catch (ValidateException $e) {
+                    Db::rollback();
+                    $this->error($e->getMessage());
+                } catch (PDOException $e) {
+                    Db::rollback();
+                    $this->error($e->getMessage());
+                } catch (Exception $e) {
+                    Db::rollback();
+                    $this->error($e->getMessage());
+                }
+                if ($result !== false) {
+                    //存入任务表
+                    $c = new Check();
+                    $t = new Task();
+                    $check = $c->where('check_id',66)->find()->toArray();
+                    $data['orders_id'] = $this->model->id;
+                    $data['adduser'] = $this->auth->id;
+                    $data['addtime'] = time();
+                    $data['leder_id'] = $check['check_leder_id'];
+                    $data['order_id'] = $check['check_order_id'];
+                    $data['boss_id'] = $check['check_boss_id'];
+                    $data['money_id'] = $check['check_money_id'];
+                    $data['pay_id'] = $check['check_pay_id'];
+                    $data['check_status'] = null;
+                    $data['task_type_id'] = 66;
+                    $data['pay_type_id'] = $params['pay_type_id'];
+                    $r = $t->insertGetId($data);
+                    $w['id'] = $this->model->id;
+                    $result = $this->model->where($w)->update(['task_id'=>$r]);
+                    if($result != 1){
+                        $this->error('网络错误，请联系管理员');
+                    }
+                    $this->success();
+                } else {
+                    $this->error(__('No rows were inserted'));
+                }
+            }
+            $this->error(__('Parameter %s can not be empty', ''));
+        }
+        return $this->view->fetch();
+    }
+
+    //查看单条数据
+    public function detail($ids)
+    {
+        //先去付费表查
+        $cp = new \app\admin\model\Task();
+        $oid = $cp->where(['id'=>$ids])->field('orders_id')->find()->toArray();
+        $row = $this->model->get(['id' => $oid['orders_id']]);
+        if (!$row) {
+            $this->error(__('No Results were found'));
+        }
+        if ($this->request->isAjax()) {
+
+            $T = new \app\admin\model\Task();
+            $id = input('ids');
+            $check = input('check');
+//                $nid = $T->where('orders_id',$id)->field('id')->find();
+//                dump($nid);exit;
+
+                //先查出审核数据
+                $trres = $T->where('id',$id)->field(array('leder_id','order_id','boss_id','money_id','pay_id'))->find();
+
+                //检查是否正常流程
+                $checkres = array_search($this->auth->id,$trres->toArray());
+                if(!$checkres){
+                    $this->error('网络错误，请联系管理员。');
+                }else{
+                    //处理字段名
+                    $status = explode('_',$checkres);
+                    $new = $status[0].'_status';
+                    $w['id'] = $id;
+            $up[$new] = $check;
+                    $up[$status[0].'_time'] = time();
+                    if($new == 'pay_status'){
+                        $up['check_status'] = $check;
+                        if($check == 1){
+                            // 处理任务表
+                            $ww['task_id'] = $ids;
+                            $cp = new \app\admin\model\CarPay();
+                            $upa['status'] = 1;
+                            $cp->where($ww)->update($upa);
+//                         dump($cp->getLastSql());exit;
+                        }else{
+                            // 处理任务表
+                            $ww['task_id'] = $ids;
+                            $cp = new \app\admin\model\CarPay();
+                            $upa['status'] = 2;
+                            $cp->where($ww)->update($upa);
+//                         dump($cp->getLastSql());exit;
+                        }
+                    }
+                    $res = $T->where($w)->update($up);
+                    if($res == 1){
+                        $this->success('审批成功');
+                    }else{
+                        $this->error('网络错误，请联系管理员。');
+                    }
+                }
+
+            $this->success("Ajax请求成功", null, ['id' => $ids]);
+        }
+        $row = $row->toArray();
+        $dv = new DictValues();
+        $car = new \app\admin\model\Car();
+        $user = new \app\admin\model\Admin();
+        $r =  $dv->where('id',$row['pay_type_id'])->field('name')->find()->toArray();
+        $pif = $dv->where('id',$row['payinfo_id'])->field('name')->find()->toArray();
+        $cr = $car->where('id',$row['car_id'])->field('car')->find()->toArray();
+        $fr = $dv->where('id',$row['free_id'])->field('name')->find()->toArray();
+        $ur = $user->where('id',$row['adduser'])->field('nickname')->find()->toArray();
+        $row['pay_type_name'] = $r['name'];
+        $row['car'] = $cr['car'];
+        $row['payinfi'] = $pif['name'];
+        $row['free'] = $fr['name'];
+        $row['username'] = $ur['nickname'];
+        $row['img'] = explode(',', $row['photoimages']);
+        $this->view->assign("row", $row);
+        return $this->view->fetch();
+    }
+
+}

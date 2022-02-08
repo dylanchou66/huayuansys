@@ -1,0 +1,622 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="a2db415f-279f-49d8-9a0e-178c61ad3117" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings" doNotAsk="true" synchronizationState="SYNCHRONIZE">
+    <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
+    <execution />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="PhpWorkspaceProjectConfiguration">
+    <include_path>
+      <path value="$PROJECT_DIR$/vendor/psr/http-message" />
+      <path value="$PROJECT_DIR$/vendor/psr/cache" />
+      <path value="$PROJECT_DIR$/vendor/psr/log" />
+      <path value="$PROJECT_DIR$/vendor/psr/container" />
+      <path value="$PROJECT_DIR$/vendor/nelexa/zip" />
+      <path value="$PROJECT_DIR$/vendor/psr/simple-cache" />
+      <path value="$PROJECT_DIR$/vendor/monolog/monolog" />
+      <path value="$PROJECT_DIR$/vendor/pimple/pimple" />
+      <path value="$PROJECT_DIR$/vendor/symfony/cache" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php80" />
+      <path value="$PROJECT_DIR$/vendor/symfony/event-dispatcher" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php72" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-intl-normalizer" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-intl-idn" />
+      <path value="$PROJECT_DIR$/vendor/symfony/finder" />
+      <path value="$PROJECT_DIR$/vendor/symfony/event-dispatcher-contracts" />
+      <path value="$PROJECT_DIR$/vendor/symfony/mime" />
+      <path value="$PROJECT_DIR$/vendor/symfony/psr-http-message-bridge" />
+      <path value="$PROJECT_DIR$/vendor/symfony/http-foundation" />
+      <path value="$PROJECT_DIR$/vendor/symfony/service-contracts" />
+      <path value="$PROJECT_DIR$/vendor/symfony/cache-contracts" />
+      <path value="$PROJECT_DIR$/vendor/symfony/var-exporter" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-mbstring" />
+      <path value="$PROJECT_DIR$/vendor/composer" />
+      <path value="$PROJECT_DIR$/vendor/overtrue/wechat" />
+      <path value="$PROJECT_DIR$/vendor/overtrue/pinyin" />
+      <path value="$PROJECT_DIR$/vendor/topthink/think-installer" />
+      <path value="$PROJECT_DIR$/vendor/overtrue/socialite" />
+      <path value="$PROJECT_DIR$/vendor/topthink/think-helper" />
+      <path value="$PROJECT_DIR$/vendor/topthink/think-queue" />
+      <path value="$PROJECT_DIR$/vendor/markbaker/complex" />
+      <path value="$PROJECT_DIR$/vendor/topthink/think-captcha" />
+      <path value="$PROJECT_DIR$/vendor/paragonie/random_compat" />
+      <path value="$PROJECT_DIR$/vendor/markbaker/matrix" />
+      <path value="$PROJECT_DIR$/vendor/ralouphie/getallheaders" />
+      <path value="$PROJECT_DIR$/vendor/phpoffice/phpspreadsheet" />
+      <path value="$PROJECT_DIR$/vendor/guzzlehttp/psr7" />
+      <path value="$PROJECT_DIR$/vendor/guzzlehttp/promises" />
+      <path value="$PROJECT_DIR$/vendor/txthinking/mailer" />
+      <path value="$PROJECT_DIR$/vendor/guzzlehttp/guzzle" />
+      <path value="$PROJECT_DIR$/vendor/easywechat-composer/easywechat-composer" />
+      <path value="$PROJECT_DIR$/vendor/karsonzhang/fastadmin-addons" />
+    </include_path>
+  </component>
+  <component name="ProjectId" id="1yqmkysmYjbES5zGcLmWQ2h4N6d" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder0" value="0" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder1" value="1" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder2" value="2" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder3" value="3" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder4" value="4" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder5" value="5" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth0" value="308" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth1" value="308" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth2" value="308" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth3" value="308" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth4" value="309" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth5" value="308" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder0" value="0" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder1" value="1" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder2" value="2" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder3" value="3" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder4" value="4" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder5" value="5" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth0" value="308" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth1" value="308" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth2" value="308" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth3" value="308" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth4" value="309" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth5" value="308" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/application/admin/lang/zh-cn" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/application/admin/lang/zh-cn" />
+      <recent name="$PROJECT_DIR$/public/assets/js/backend" />
+      <recent name="$PROJECT_DIR$/application/admin/view" />
+      <recent name="$PROJECT_DIR$/application/admin/model" />
+      <recent name="$PROJECT_DIR$/application/admin/controller" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/application/admin/view/card" />
+      <recent name="$PROJECT_DIR$/application/admin/view/bill" />
+      <recent name="$PROJECT_DIR$/application/admin/view" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration" cleanupOnStartRun="true">
+    <configuration>$USER_HOME$/.subversion</configuration>
+    <supportedVersion>125</supportedVersion>
+  </component>
+  <component name="SvnFileUrlMappingImpl">
+    <option name="myMappingRoots">
+      <list>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="$PROJECT_DIR$" />
+          <option name="myCopyRoot" value="$PROJECT_DIR$" />
+        </SvnCopyRootSimple>
+      </list>
+    </option>
+    <option name="myMoreRealMappingRoots">
+      <list>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="$PROJECT_DIR$" />
+          <option name="myCopyRoot" value="$PROJECT_DIR$" />
+        </SvnCopyRootSimple>
+      </list>
+    </option>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="a2db415f-279f-49d8-9a0e-178c61ad3117" name="Default Changelist" comment="" />
+      <created>1632987639906</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1632987639906</updated>
+      <workItem from="1632987641141" duration="655000" />
+      <workItem from="1633007919437" duration="95000" />
+      <workItem from="1633698938072" duration="1274000" />
+      <workItem from="1633742726384" duration="36577000" />
+      <workItem from="1633955474471" duration="23000" />
+      <workItem from="1633955530203" duration="3715000" />
+      <workItem from="1634000464208" duration="26732000" />
+      <workItem from="1634174130360" duration="2310000" />
+      <workItem from="1634603636083" duration="2310000" />
+      <workItem from="1634606175971" duration="56072000" />
+      <workItem from="1634949265676" duration="16591000" />
+      <workItem from="1635165219615" duration="21112000" />
+      <workItem from="1635300381331" duration="4050000" />
+      <workItem from="1635311031812" duration="529000" />
+      <workItem from="1635312382968" duration="47786000" />
+      <workItem from="1635750701123" duration="227000" />
+      <workItem from="1635750968862" duration="27000" />
+      <workItem from="1635751017220" duration="22000" />
+      <workItem from="1635751063046" duration="219000" />
+      <workItem from="1635751349817" duration="92000" />
+      <workItem from="1635765859968" duration="86000" />
+      <workItem from="1635832096192" duration="7707000" />
+      <workItem from="1635985675047" duration="41805000" />
+      <workItem from="1636286548118" duration="640000" />
+      <workItem from="1636421844439" duration="35121000" />
+      <workItem from="1636870638232" duration="38488000" />
+      <workItem from="1637631282876" duration="6506000" />
+      <workItem from="1637644330426" duration="17181000" />
+      <workItem from="1638232548430" duration="73000" />
+      <workItem from="1638232702429" duration="58384000" />
+      <workItem from="1638512539315" duration="4601000" />
+      <workItem from="1639016813686" duration="191000" />
+      <workItem from="1639096024354" duration="14594000" />
+      <workItem from="1639183713399" duration="607000" />
+      <workItem from="1639444005038" duration="11557000" />
+      <workItem from="1639461851058" duration="36000" />
+      <workItem from="1639528699755" duration="1472000" />
+      <workItem from="1639534817124" duration="32524000" />
+      <workItem from="1640046800297" duration="34018000" />
+      <workItem from="1640308477718" duration="13705000" />
+      <workItem from="1640655300463" duration="9307000" />
+      <workItem from="1641025562314" duration="704000" />
+      <workItem from="1641269983966" duration="2104000" />
+      <workItem from="1641429575258" duration="864000" />
+      <workItem from="1641444401875" duration="410000" />
+      <workItem from="1641446733494" duration="24037000" />
+      <workItem from="1641866093799" duration="34095000" />
+      <workItem from="1642037834425" duration="9171000" />
+      <workItem from="1642050341859" duration="3607000" />
+      <workItem from="1642120348539" duration="8260000" />
+      <workItem from="1642471471508" duration="205000" />
+      <workItem from="1642471691289" duration="102000" />
+      <workItem from="1642471877890" duration="441000" />
+      <workItem from="1642472359396" duration="155000" />
+      <workItem from="1642472529485" duration="125000" />
+      <workItem from="1642472669327" duration="189000" />
+      <workItem from="1642472887933" duration="39000" />
+      <workItem from="1642472944829" duration="303000" />
+      <workItem from="1642473277143" duration="31000" />
+      <workItem from="1642473325056" duration="75000" />
+      <workItem from="1642473413234" duration="6348000" />
+      <workItem from="1642552941173" duration="17195000" />
+      <workItem from="1642646278322" duration="12444000" />
+      <workItem from="1643332951412" duration="10000" />
+      <workItem from="1643333365666" duration="102000" />
+      <workItem from="1643349186683" duration="839000" />
+      <workItem from="1643768244131" duration="6000" />
+      <workItem from="1644304850253" duration="32000" />
+    </task>
+    <task id="LOCAL-00227" summary="垫付修改显示">
+      <created>1639622946037</created>
+      <option name="number" value="00227" />
+      <option name="presentableId" value="LOCAL-00227" />
+      <option name="project" value="LOCAL" />
+      <updated>1639622946037</updated>
+    </task>
+    <task id="LOCAL-00228" summary="垫付修改显示">
+      <created>1639623086029</created>
+      <option name="number" value="00228" />
+      <option name="presentableId" value="LOCAL-00228" />
+      <option name="project" value="LOCAL" />
+      <updated>1639623086029</updated>
+    </task>
+    <task id="LOCAL-00229" summary="增加结算模块">
+      <created>1640141300042</created>
+      <option name="number" value="00229" />
+      <option name="presentableId" value="LOCAL-00229" />
+      <option name="project" value="LOCAL" />
+      <updated>1640141300044</updated>
+    </task>
+    <task id="LOCAL-00230" summary="增加结算模块 修复">
+      <created>1640143403032</created>
+      <option name="number" value="00230" />
+      <option name="presentableId" value="LOCAL-00230" />
+      <option name="project" value="LOCAL" />
+      <updated>1640143403033</updated>
+    </task>
+    <task id="LOCAL-00231" summary="增加结算模块 修复">
+      <created>1640143461031</created>
+      <option name="number" value="00231" />
+      <option name="presentableId" value="LOCAL-00231" />
+      <option name="project" value="LOCAL" />
+      <updated>1640143461031</updated>
+    </task>
+    <task id="LOCAL-00232" summary="增加结算模块 修复">
+      <created>1640143481027</created>
+      <option name="number" value="00232" />
+      <option name="presentableId" value="LOCAL-00232" />
+      <option name="project" value="LOCAL" />
+      <updated>1640143481027</updated>
+    </task>
+    <task id="LOCAL-00233" summary="增加结算模块 修复">
+      <created>1640143490027</created>
+      <option name="number" value="00233" />
+      <option name="presentableId" value="LOCAL-00233" />
+      <option name="project" value="LOCAL" />
+      <updated>1640143490027</updated>
+    </task>
+    <task id="LOCAL-00234" summary="增加结算模块 bug修复">
+      <created>1640144088035</created>
+      <option name="number" value="00234" />
+      <option name="presentableId" value="LOCAL-00234" />
+      <option name="project" value="LOCAL" />
+      <updated>1640144088035</updated>
+    </task>
+    <task id="LOCAL-00235" summary="增加结算模块 bug修复">
+      <created>1640144844027</created>
+      <option name="number" value="00235" />
+      <option name="presentableId" value="LOCAL-00235" />
+      <option name="project" value="LOCAL" />
+      <updated>1640144844028</updated>
+    </task>
+    <task id="LOCAL-00236" summary="增加结算模块 增加显示">
+      <created>1640151684030</created>
+      <option name="number" value="00236" />
+      <option name="presentableId" value="LOCAL-00236" />
+      <option name="project" value="LOCAL" />
+      <updated>1640151684032</updated>
+    </task>
+    <task id="LOCAL-00237" summary="车辆付费，增加车满满已录">
+      <created>1640153560033</created>
+      <option name="number" value="00237" />
+      <option name="presentableId" value="LOCAL-00237" />
+      <option name="project" value="LOCAL" />
+      <updated>1640153560034</updated>
+    </task>
+    <task id="LOCAL-00238" summary="显示内容修改">
+      <created>1640220889035</created>
+      <option name="number" value="00238" />
+      <option name="presentableId" value="LOCAL-00238" />
+      <option name="project" value="LOCAL" />
+      <updated>1640220889035</updated>
+    </task>
+    <task id="LOCAL-00239" summary="显示内容修改">
+      <created>1640221068029</created>
+      <option name="number" value="00239" />
+      <option name="presentableId" value="LOCAL-00239" />
+      <option name="project" value="LOCAL" />
+      <updated>1640221068029</updated>
+    </task>
+    <task id="LOCAL-00240" summary="显示内容修改">
+      <created>1640221311033</created>
+      <option name="number" value="00240" />
+      <option name="presentableId" value="LOCAL-00240" />
+      <option name="project" value="LOCAL" />
+      <updated>1640221311034</updated>
+    </task>
+    <task id="LOCAL-00241" summary="显示内容修改">
+      <created>1640221361028</created>
+      <option name="number" value="00241" />
+      <option name="presentableId" value="LOCAL-00241" />
+      <option name="project" value="LOCAL" />
+      <updated>1640221361028</updated>
+    </task>
+    <task id="LOCAL-00242" summary="增加备注">
+      <created>1640227474030</created>
+      <option name="number" value="00242" />
+      <option name="presentableId" value="LOCAL-00242" />
+      <option name="project" value="LOCAL" />
+      <updated>1640227474031</updated>
+    </task>
+    <task id="LOCAL-00243" summary="备用金显示">
+      <created>1640228452029</created>
+      <option name="number" value="00243" />
+      <option name="presentableId" value="LOCAL-00243" />
+      <option name="project" value="LOCAL" />
+      <updated>1640228452029</updated>
+    </task>
+    <task id="LOCAL-00244" summary="备用金显示">
+      <created>1640228804030</created>
+      <option name="number" value="00244" />
+      <option name="presentableId" value="LOCAL-00244" />
+      <option name="project" value="LOCAL" />
+      <updated>1640228804030</updated>
+    </task>
+    <task id="LOCAL-00245" summary="修改显示名字">
+      <created>1640238044046</created>
+      <option name="number" value="00245" />
+      <option name="presentableId" value="LOCAL-00245" />
+      <option name="project" value="LOCAL" />
+      <updated>1640238044047</updated>
+    </task>
+    <task id="LOCAL-00246" summary="修改显示名字">
+      <created>1640238142032</created>
+      <option name="number" value="00246" />
+      <option name="presentableId" value="LOCAL-00246" />
+      <option name="project" value="LOCAL" />
+      <updated>1640238142032</updated>
+    </task>
+    <task id="LOCAL-00247" summary="索赔显示字段调整">
+      <created>1640308171042</created>
+      <option name="number" value="00247" />
+      <option name="presentableId" value="LOCAL-00247" />
+      <option name="project" value="LOCAL" />
+      <updated>1640308171044</updated>
+    </task>
+    <task id="LOCAL-00248" summary="卡管理">
+      <created>1640315456036</created>
+      <option name="number" value="00248" />
+      <option name="presentableId" value="LOCAL-00248" />
+      <option name="project" value="LOCAL" />
+      <updated>1640315456036</updated>
+    </task>
+    <task id="LOCAL-00249" summary="卡管理">
+      <created>1640315912027</created>
+      <option name="number" value="00249" />
+      <option name="presentableId" value="LOCAL-00249" />
+      <option name="project" value="LOCAL" />
+      <updated>1640315912027</updated>
+    </task>
+    <task id="LOCAL-00250" summary="卡管理">
+      <created>1640315994027</created>
+      <option name="number" value="00250" />
+      <option name="presentableId" value="LOCAL-00250" />
+      <option name="project" value="LOCAL" />
+      <updated>1640315994027</updated>
+    </task>
+    <task id="LOCAL-00251" summary="卡管理">
+      <created>1640316513032</created>
+      <option name="number" value="00251" />
+      <option name="presentableId" value="LOCAL-00251" />
+      <option name="project" value="LOCAL" />
+      <updated>1640316513032</updated>
+    </task>
+    <task id="LOCAL-00252" summary="索赔定责">
+      <created>1640656903035</created>
+      <option name="number" value="00252" />
+      <option name="presentableId" value="LOCAL-00252" />
+      <option name="project" value="LOCAL" />
+      <updated>1640656903036</updated>
+    </task>
+    <task id="LOCAL-00253" summary="索赔定责">
+      <created>1640657196027</created>
+      <option name="number" value="00253" />
+      <option name="presentableId" value="LOCAL-00253" />
+      <option name="project" value="LOCAL" />
+      <updated>1640657196027</updated>
+    </task>
+    <task id="LOCAL-00254" summary="索赔定责">
+      <created>1640659994026</created>
+      <option name="number" value="00254" />
+      <option name="presentableId" value="LOCAL-00254" />
+      <option name="project" value="LOCAL" />
+      <updated>1640659994026</updated>
+    </task>
+    <task id="LOCAL-00255" summary="索赔显示调整">
+      <created>1640660694040</created>
+      <option name="number" value="00255" />
+      <option name="presentableId" value="LOCAL-00255" />
+      <option name="project" value="LOCAL" />
+      <updated>1640660694041</updated>
+    </task>
+    <task id="LOCAL-00256" summary="审核字段显示时间">
+      <created>1641025752034</created>
+      <option name="number" value="00256" />
+      <option name="presentableId" value="LOCAL-00256" />
+      <option name="project" value="LOCAL" />
+      <updated>1641025752034</updated>
+    </task>
+    <task id="LOCAL-00257" summary="审核字段显示时间">
+      <created>1641270446030</created>
+      <option name="number" value="00257" />
+      <option name="presentableId" value="LOCAL-00257" />
+      <option name="project" value="LOCAL" />
+      <updated>1641270446030</updated>
+    </task>
+    <task id="LOCAL-00258" summary="加油加气模块">
+      <created>1642476948042</created>
+      <option name="number" value="00258" />
+      <option name="presentableId" value="LOCAL-00258" />
+      <option name="project" value="LOCAL" />
+      <updated>1642476948042</updated>
+    </task>
+    <task id="LOCAL-00259" summary="加油加气模块">
+      <created>1642477166032</created>
+      <option name="number" value="00259" />
+      <option name="presentableId" value="LOCAL-00259" />
+      <option name="project" value="LOCAL" />
+      <updated>1642477166032</updated>
+    </task>
+    <task id="LOCAL-00260" summary="加油加气模块">
+      <created>1642477716030</created>
+      <option name="number" value="00260" />
+      <option name="presentableId" value="LOCAL-00260" />
+      <option name="project" value="LOCAL" />
+      <updated>1642477716030</updated>
+    </task>
+    <task id="LOCAL-00261" summary="加油加气模块">
+      <created>1642478372028</created>
+      <option name="number" value="00261" />
+      <option name="presentableId" value="LOCAL-00261" />
+      <option name="project" value="LOCAL" />
+      <updated>1642478372028</updated>
+    </task>
+    <task id="LOCAL-00262" summary="加油加气模块">
+      <created>1642478749026</created>
+      <option name="number" value="00262" />
+      <option name="presentableId" value="LOCAL-00262" />
+      <option name="project" value="LOCAL" />
+      <updated>1642478749027</updated>
+    </task>
+    <task id="LOCAL-00263" summary="加油加气模块 权限修改">
+      <created>1642484665030</created>
+      <option name="number" value="00263" />
+      <option name="presentableId" value="LOCAL-00263" />
+      <option name="project" value="LOCAL" />
+      <updated>1642484665030</updated>
+    </task>
+    <task id="LOCAL-00264" summary="加油加气模块 权限修改">
+      <created>1642484768025</created>
+      <option name="number" value="00264" />
+      <option name="presentableId" value="LOCAL-00264" />
+      <option name="project" value="LOCAL" />
+      <updated>1642484768025</updated>
+    </task>
+    <task id="LOCAL-00265" summary="加油加气模块 权限修改">
+      <created>1642485164027</created>
+      <option name="number" value="00265" />
+      <option name="presentableId" value="LOCAL-00265" />
+      <option name="project" value="LOCAL" />
+      <updated>1642485164027</updated>
+    </task>
+    <task id="LOCAL-00266" summary="加油加气模块 权限修改">
+      <created>1642485187029</created>
+      <option name="number" value="00266" />
+      <option name="presentableId" value="LOCAL-00266" />
+      <option name="project" value="LOCAL" />
+      <updated>1642485187029</updated>
+    </task>
+    <task id="LOCAL-00267" summary="垫付结算功能">
+      <created>1642569701034</created>
+      <option name="number" value="00267" />
+      <option name="presentableId" value="LOCAL-00267" />
+      <option name="project" value="LOCAL" />
+      <updated>1642569701035</updated>
+    </task>
+    <task id="LOCAL-00268" summary="垫付结算功能">
+      <created>1642570005028</created>
+      <option name="number" value="00268" />
+      <option name="presentableId" value="LOCAL-00268" />
+      <option name="project" value="LOCAL" />
+      <updated>1642570005028</updated>
+    </task>
+    <task id="LOCAL-00269" summary="垫付结算功能">
+      <created>1642570979026</created>
+      <option name="number" value="00269" />
+      <option name="presentableId" value="LOCAL-00269" />
+      <option name="project" value="LOCAL" />
+      <updated>1642570979026</updated>
+    </task>
+    <task id="LOCAL-00270" summary="卡充值">
+      <created>1642571742043</created>
+      <option name="number" value="00270" />
+      <option name="presentableId" value="LOCAL-00270" />
+      <option name="project" value="LOCAL" />
+      <updated>1642571742044</updated>
+    </task>
+    <task id="LOCAL-00271" summary="加油显示优化">
+      <created>1642649068042</created>
+      <option name="number" value="00271" />
+      <option name="presentableId" value="LOCAL-00271" />
+      <option name="project" value="LOCAL" />
+      <updated>1642649068042</updated>
+    </task>
+    <task id="LOCAL-00272" summary="加油显示优化">
+      <created>1642655206029</created>
+      <option name="number" value="00272" />
+      <option name="presentableId" value="LOCAL-00272" />
+      <option name="project" value="LOCAL" />
+      <updated>1642655206029</updated>
+    </task>
+    <task id="LOCAL-00273" summary="车辆付费修复">
+      <created>1642724814028</created>
+      <option name="number" value="00273" />
+      <option name="presentableId" value="LOCAL-00273" />
+      <option name="project" value="LOCAL" />
+      <updated>1642724814029</updated>
+    </task>
+    <task id="LOCAL-00274" summary="加油显示优化">
+      <created>1642726735028</created>
+      <option name="number" value="00274" />
+      <option name="presentableId" value="LOCAL-00274" />
+      <option name="project" value="LOCAL" />
+      <updated>1642726735028</updated>
+    </task>
+    <task id="LOCAL-00275" summary="修复bug 合同车">
+      <created>1643333394034</created>
+      <option name="number" value="00275" />
+      <option name="presentableId" value="LOCAL-00275" />
+      <option name="project" value="LOCAL" />
+      <updated>1643333394035</updated>
+    </task>
+    <option name="localTasksCounter" value="276" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="定责该状态为5" />
+    <MESSAGE value="定责该状态" />
+    <MESSAGE value="修改显示" />
+    <MESSAGE value="垫付修改显示" />
+    <MESSAGE value="增加结算模块" />
+    <MESSAGE value="增加结算模块 修复" />
+    <MESSAGE value="增加结算模块 bug修复" />
+    <MESSAGE value="增加结算模块 增加显示" />
+    <MESSAGE value="车辆付费，增加车满满已录" />
+    <MESSAGE value="显示内容修改" />
+    <MESSAGE value="增加备注" />
+    <MESSAGE value="备用金显示" />
+    <MESSAGE value="修改显示名字" />
+    <MESSAGE value="索赔显示字段调整" />
+    <MESSAGE value="卡管理" />
+    <MESSAGE value="索赔定责" />
+    <MESSAGE value="索赔显示调整" />
+    <MESSAGE value="审核字段显示时间" />
+    <MESSAGE value="加油加气模块" />
+    <MESSAGE value="加油加气模块 权限修改" />
+    <MESSAGE value="垫付结算功能" />
+    <MESSAGE value="卡充值" />
+    <MESSAGE value="车辆付费修复" />
+    <MESSAGE value="加油显示优化" />
+    <MESSAGE value="修复bug 合同车" />
+    <option name="LAST_COMMIT_MESSAGE" value="修复bug 合同车" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/public/assets/js/backend/pay.js</url>
+          <line>81</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/public/assets/js/backend/claims.js</url>
+          <line>79</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/application/admin/controller/Borrow.php</url>
+          <line>140</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

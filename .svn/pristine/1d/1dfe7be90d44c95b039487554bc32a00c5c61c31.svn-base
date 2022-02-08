@@ -1,0 +1,309 @@
+<?php
+
+namespace app\admin\controller;
+
+use app\admin\model\DictValues;
+use app\admin\model\Task;
+use app\common\controller\Backend;
+use app\common\library\Email;
+
+/**
+ * 
+ *
+ * @icon fa fa-circle-o
+ */
+class DeductionInfo extends Backend
+{
+    
+    /**
+     * DeductionInfo模型对象
+     * @var \app\admin\model\DeductionInfo
+     */
+    protected $model = null;
+
+    public function _initialize()
+    {
+        parent::_initialize();
+        $this->model = new \app\admin\model\DeductionInfo;
+        $this->view->assign("statusList", $this->model->getStatusList());
+    }
+
+    public function import()
+    {
+        parent::import();
+    }
+
+    /**
+     * 默认生成的控制器所继承的父类中有index/add/edit/del/multi五个基础方法、destroy/restore/recyclebin三个回收站方法
+     * 因此在当前控制器中可不用编写增删改查的代码,除非需要自己控制这部分逻辑
+     * 需要将application/admin/library/traits/Backend.php中对应的方法复制到当前控制器,然后进行修改
+     */
+
+    public function index()
+    {
+        //当前是否为关联查询
+        $this->relationSearch = true;
+        //设置过滤方法
+        $this->request->filter(['strip_tags', 'trim']);
+        if ($this->request->isAjax()) {
+            //如果发送的来源是Selectpage，则转发到Selectpage
+            if ($this->request->request('keyField')) {
+                return $this->selectpage();
+            }
+
+
+            list($where, $sort, $order, $offset, $limit) = $this->buildparams();
+
+            $list = $this->model
+                ->with(['admin','zerena','fgs'])
+                ->where($where)
+                ->order($sort, $order)
+                ->paginate($limit);
+            foreach ($list as $row) {
+
+                $row->getRelation('admin')->visible(['id','nickname','status','dict_values_id']);
+                switch($row['zeren']){
+                    case 0:
+                        $row->getRelation('zerena')->visible(['id','company']);
+                        break;
+                    case 1:
+                        $row->getRelation('fgs')->visible(['id','name','status']);
+                        break;
+                }
+            }
+
+            $result = array("total" => $list->total(), "rows" => $list->items());
+
+            return json($result);
+        }
+        return $this->view->fetch();
+    }
+
+
+    public function detail($ids)
+    {
+        $C = new \app\admin\model\Claims();
+        $row = $this->model->get(['task_id' => $ids]);
+        if (!$row) {
+            $this->error(__('No Results were found'));
+        }
+        $T = new \app\admin\model\Task();
+        $dv = new DictValues();
+        $user = new \app\admin\model\Admin();
+        $row = empty($row) ? array():$row->toArray();
+        //先查出审核数据
+        $trres = $T->where('id',$ids)->field(array('adduser','leder_id','king_id','order_id','boss_id','money_id','pay_id'))->find();
+        //检查是否正常流程
+        $checkres = array_search($this->auth->id,$trres->toArray());
+        //处理字段名
+        $status = explode('_',$checkres);
+        $new = $status[0].'_status';
+        if ($this->request->isAjax()) {
+            $b = input();
+            $beizhu = $b['row']['ps'];
+            $T = new \app\admin\model\Task();
+            $id = $b['ids'];
+            $check = $b['check'];
+//                $nid = $T->where('orders_id',$id)->field('id')->find();
+            //先查出审核数据
+            $trres = $T->where('id',$id)->field(array('adduser','king_id','leder_id','order_id','boss_id','money_id','pay_id','one_id'))->find();
+            //检查是否正常流程
+            $checkres = array_search($this->auth->id,$trres->toArray());
+
+            if(!$checkres or $check == null or $check == ''){
+                $this->error('请选择审批类型');
+            }else{
+                $mail = new Email();
+                //处理字段名
+                $status = explode('_',$checkres);
+                $new = $status[0].'_status';
+                $w['id'] = $id;
+                $up[$new] = $check;
+                $up[$status[0].'_time'] = time();
+                //出纳操作
+                if($new == 'pay_status'){
+                    $up['check_status'] = $check;
+                    $up['ps'] = $beizhu;
+                    if($check == 1 ){
+                        // 处理任务表
+                        $ww['task_id'] = $ids;
+                        $upa['status'] = 1;
+                        $upa['checktime'] = time();
+                        $upa['checkuser'] = $this->auth->id;
+                        $this->model->where($ww)->update($upa);
+                        //修改索赔表
+                        $C = new \app\admin\model\Claims();
+
+                        $check_ids = $this->model->where('task_id',$id)->field('ids')->find();
+                        $check_ids = explode(',',$check_ids['ids']);
+                        foreach ($check_ids as $v){
+                            $C->where('id',$v)->update(array('deduction'=>2));
+                        }
+                        //判断是否完成付款，结果告知最终用户
+                        $ad = new \app\admin\model\Admin();
+                        $adduser = $trres->toArray();
+                        $adduser = $adduser['adduser'];
+                        $url = 'http://sys.dscloud.me:888/uBPmpTIrcF.php/car_pay?ref=addtabs';
+                        $txt = '业务审核单完成，请点击连接查看。<br/><a href="'.$url.'">点击访问</a>';
+                        $email = $ad->where('id',$adduser)->field('id,email')->find()->toArray();
+                        $mail
+                            ->subject('审核完成，审核单：'.$trres['one_id'])
+                            ->from('system@huayuanl.com','Information')
+                            ->to($email['email'])
+                            ->message($txt,$ishtml = true)
+                            ->send();
+
+
+                    }else{
+                        // 处理任务表
+                        $ww['task_id'] = $ids;
+                        $upa['status'] = 2;
+                        $this->model->where($ww)->update($upa);
+                        $check_ids = $this->model->where('task_id',$id)->field('ids')->find();
+                        $check_ids = explode(',',$check_ids['ids']);
+                        foreach ($check_ids as $v){
+                            $C->where('id',$v)->update(array('deduction'=>0));
+                        }
+                    }
+                }
+
+                $res = $T->where($w)->update($up);
+
+
+                if($res == 1){
+                    $this->success('审批成功');
+                }else{
+                    $this->error('网络错误，请联系管理员。');
+                }
+            }
+
+            $this->success("Ajax请求成功", null, ['id' => $ids]);
+        }
+
+        $ur = $user->where('id',$row['adduser'])->field('nickname')->find()->toArray();
+        $n_ids = explode(',',$row['ids']);
+        $info = '';
+        foreach($n_ids as $v){
+            $r = $C->where(['id'=>$v])->field('claims_id')->find()->toArray();
+            $info .= $r['claims_id'].',';
+        }
+        switch($row['zeren']){
+            case 0:
+                $S = new \app\admin\model\Supplier();
+                $res = $S->where('id',$row['zeren_id'])->field('company')->find()->toArray();
+                $row['cys_name'] = $res['company'];
+                break;
+            case 1:
+                $D = new \app\admin\model\DictValues();
+
+                //查询名称
+                $res = $D->where('id',$row['fgs_id'])->field('name')->find()->toArray();
+                $row['cys_name'] = $res['name'];
+
+                break;
+
+        }
+
+        $row['username'] = $ur['nickname'];
+        $row['info'] = $info;
+
+
+        //查进度
+        //查出taskid
+
+        $jindu = $T->get(['id' => $ids]);
+
+        $pur = $user->where('id',$jindu['pay_id'])->field('nickname')->find()->toArray();
+
+
+        $jindu['pur'] = $pur['nickname'];
+        if (!$row) {
+            $this->error(__('No Results were found'));
+        }
+        if ($this->request->isAjax()) {
+            $this->success("Ajax请求成功", null, ['id' => $ids]);
+        }
+        $this->view->assign("row", $row);
+        $this->view->assign("new", $new);
+
+        $this->view->assign("jindu", $jindu->toArray());
+        return $this->view->fetch();
+
+    }
+
+    public function one($ids)
+    {
+        $row = $this->model->get(['id' => $ids]);
+        if (!$row) {
+            $this->error(__('No Results were found'));
+        }
+        $row = $row->toArray();
+
+
+        $T = new Task();
+        $C = new \app\admin\model\Claims();
+        $U = new \app\admin\model\Admin();
+
+        //查询具体taskid
+        $type = $T->where('id',$row['task_id'])->field('task_type_id')->find()->toArray();
+
+                $c_w['task_type_id'] = 235;
+
+
+        //限定为索赔
+        $c_w['orders_id'] = $ids;
+        //审核人状态
+        $tres = $T->where($c_w)->field('leder_status,money_status,king_status,order_status,boss_status')->find()->toArray();
+
+        $ur = $U->where('id',$row['adduser'])->field('nickname')->find()->toArray();
+
+        $bz = $T->where($c_w)->field('ps')->find()->toArray();
+
+        switch($row['zeren']){
+            case 0:
+                $S = new \app\admin\model\Supplier();
+                $res = $S->where('id',$row['zeren_id'])->field('company')->find()->toArray();
+                $row['cys_name'] = $res['company'];
+                break;
+            case 1:
+                $D = new \app\admin\model\DictValues();
+
+                //查询名称
+                $res = $D->where('id',$row['fgs_id'])->field('name')->find()->toArray();
+                $row['cys_name'] = $res['name'];
+
+                break;
+
+        }
+
+        $row['beizhu'] = $bz['ps'];
+
+        $n_ids = explode(',',$row['ids']);
+        $info = '';
+        foreach($n_ids as $v){
+            $r = $C->where(['id'=>$v])->field('claims_id')->find()->toArray();
+            $info .= $r['claims_id'].',';
+        }
+
+        $row['username'] = $ur['nickname'];
+        $row['info'] = $info;
+
+
+        //查进度
+        //查出taskid
+
+
+        $jindu = $T->where($c_w)->find()->toArray();
+        $pur = $U->where('id',$jindu['pay_id'])->field('nickname')->find()->toArray();
+
+
+        $jindu['pur'] = $pur['nickname'];
+
+        $this->view->assign("row", $row);
+        $this->view->assign("check", $tres);
+        $this->view->assign("jindu", $jindu);
+        return $this->view->fetch();
+
+    }
+
+}

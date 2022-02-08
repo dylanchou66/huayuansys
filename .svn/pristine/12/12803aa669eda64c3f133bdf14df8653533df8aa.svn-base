@@ -1,0 +1,399 @@
+<?php
+
+namespace app\admin\controller;
+
+use app\admin\model\DictValues;
+use app\admin\model\Task;
+use app\common\controller\Backend;
+use app\common\library\Email;
+use think\Db;
+use think\exception\PDOException;
+use think\exception\ValidateException;
+
+/**
+ * 
+ *
+ * @icon fa fa-circle-o
+ */
+class Bill extends Backend
+{
+    
+    /**
+     * Bill模型对象
+     * @var \app\admin\model\Bill
+     */
+    protected $model = null;
+
+    public function _initialize()
+    {
+        parent::_initialize();
+        $this->model = new \app\admin\model\Bill;
+        $this->view->assign("cardBillTypeList", $this->model->getCardBillTypeList());
+        $this->view->assign("moneyTypeList", $this->model->getMoneyTypeList());
+        $this->view->assign("statusList", $this->model->getStatusList());
+        $this->view->assign("card", $this->master());
+
+    }
+
+    public function import()
+    {
+        parent::import();
+    }
+
+    /**
+     * 默认生成的控制器所继承的父类中有index/add/edit/del/multi五个基础方法、destroy/restore/recyclebin三个回收站方法
+     * 因此在当前控制器中可不用编写增删改查的代码,除非需要自己控制这部分逻辑
+     * 需要将application/admin/library/traits/Backend.php中对应的方法复制到当前控制器,然后进行修改
+     */
+    
+
+    /**
+     * 查看
+     */
+    public function index()
+    {
+        //当前是否为关联查询
+        $this->relationSearch = true;
+        //设置过滤方法
+        $this->request->filter(['strip_tags', 'trim']);
+        if ($this->request->isAjax()) {
+            //如果发送的来源是Selectpage，则转发到Selectpage
+            if ($this->request->request('keyField')) {
+                return $this->selectpage();
+            }
+            list($where, $sort, $order, $offset, $limit) = $this->buildparams();
+
+            $list = $this->model
+                    ->with(['admin','card'])
+                    ->where($where)
+                    ->order($sort, $order)
+                    ->paginate($limit);
+            $card = $this->master();
+            $result = array("card" => $card,"total" => $list->total(), "rows" => $list->items());
+
+            return json($result);
+        }
+        return $this->view->fetch();
+
+    }
+
+    //查看单条数据
+    public function detail($ids)
+    {
+        $row = $this->model->get(['task_id' => $ids]);
+        if (!$row) {
+            $this->error(__('No Results were found'));
+        }
+        $T = new \app\admin\model\Task();
+        $dv = new DictValues();
+        $Card = new \app\admin\model\Card();
+        $user = new \app\admin\model\Admin();
+        $row = empty($row) ? array():$row->toArray();
+        //先查出审核数据
+        $trres = $T->where('id',$ids)->field(array('adduser','leder_id','king_id','order_id','boss_id','money_id','pay_id'))->find();
+        //检查是否正常流程
+        $checkres = array_search($this->auth->id,$trres->toArray());
+        //处理字段名
+        $status = explode('_',$checkres);
+        $new = $status[0].'_status';
+        if ($this->request->isAjax()) {
+            $b = input();
+            $T = new \app\admin\model\Task();
+            $id = $b['ids'];
+            $check = $b['check'];
+//                $nid = $T->where('orders_id',$id)->field('id')->find();
+            //先查出审核数据
+            $trres = $T->where('id',$id)->field(array('adduser','king_id','leder_id','order_id','boss_id','money_id','pay_id','one_id'))->find();
+            //检查是否正常流程
+            $checkres = array_search($this->auth->id,$trres->toArray());
+
+            if(!$checkres or $check == null or $check == ''){
+                $this->error('请选择审批类型');
+            }else{
+                $mail = new Email();
+                //处理字段名
+                $status = explode('_',$checkres);
+                $new = $status[0].'_status';
+                $w['id'] = $id;
+                $up[$new] = $check;
+                $up[$status[0].'_time'] = time();
+                //出纳操作
+                if($new == 'pay_status'){
+                    $up['check_status'] = $check;
+                    if($check == 1 ){
+                        // 处理任务表
+                        $ww['task_id'] = $ids;
+                        $upa['status'] = 3;
+                        $upa['pay_time'] = time();
+                        $this->model->where($ww)->update($upa);
+
+                        //判断是否完成付款，结果告知最终用户
+                        $ad = new \app\admin\model\Admin();
+                        $adduser = $trres->toArray();
+                        $adduser = $adduser['adduser'];
+                        $url = 'http://sys.dscloud.me:888/uBPmpTIrcF.php/car_pay?ref=addtabs';
+                        $txt = '业务审核单完成，请点击连接查看。<br/><a href="'.$url.'">点击访问</a>';
+                        $email = $ad->where('id',$adduser)->field('id,email')->find()->toArray();
+                        $mail
+                            ->subject('审核完成，审核单：'.$trres['one_id'])
+                            ->from('system@huayuanl.com','Information')
+                            ->to($email['email'])
+                            ->message($txt,$ishtml = true)
+                            ->send();
+                    }else{
+                        // 处理任务表
+                        $ww['task_id'] = $ids;
+                        $upa['status'] = 2;
+                        $this->model->where($ww)->update($upa);
+                        $tup['check_status'] = 2;
+                        $cpup['status'] = 2;
+                        $T->where('id',$id)->update($tup);
+                    }
+                }else{
+                    //不是出纳审核，成功不改变最后状态。失败改变2张表审批状态
+                    $id = $ids;
+                    if($check == 2){
+                        $tup['check_status'] = 2;
+                        $cpup['status'] = 2;
+                        $T->where('id',$id)->update($tup);
+
+                        $this->model->where('task_id',$id)->update($cpup);
+                    }else{
+                        $ad = new \app\admin\model\Admin();
+                        $task = new Task();
+                        //查下个用户邮箱
+                        switch($new){
+                            case 'leder_status':
+                                //判断是否审核过
+                                $check_res = $task->where('id',$id)->field('order_id,order_status')->find()->toArray();
+                                if($check_res['order_status'] == null){
+                                    if($check_res['order_id'] == 24){
+                                        $emailuser = 'boss_id';
+                                    }else{
+                                        $emailuser = 'order_id';
+                                    }
+                                }else{
+                                    $emailuser = 'boss_id';
+                                }
+                                break;
+                            case 'order_status':
+                                //判断是否审核过
+                                $check_res = $task->where('id',$id)->field('boss_id,boss_status')->find()->toArray();
+                                if($check_res['boss_status'] == null){
+                                    $emailuser = 'boss_id';
+                                }
+                                break;
+                            case 'boss_status':
+                                $check_res = $task->where('id',$id)->field('king_id,king_status')->find()->toArray();
+                                if($check_res['king_status'] == null){
+                                    $emailuser = 'king_id';
+                                }else{
+                                    $emailuser = 'money_id';
+                                }
+                                break;
+                            case 'king_status':
+                                $check_res = $task->where('id',$id)->field('money_id,money_status')->find()->toArray();
+                                if($check_res['money_status'] == null){
+                                    $emailuser = 'money_id';
+                                }
+                                break;
+                            case 'money_status':
+                                $ww['task_id'] = $ids;
+                                $B = new \app\admin\model\Bill();
+                                $upa['status'] = 1;
+                                $B->where($ww)->update($upa);
+                                $check_res = $task->where('id',$id)->field('pay_id,pay_status')->find()->toArray();
+                                if($check_res['pay_status'] == null){
+                                    $emailuser = 'pay_id';
+                                }
+                                break;
+                            default:
+                                $this->error('网络错误');
+                                break;
+                        }
+
+
+                        $task = new Task();
+
+
+                        $task_id = $task->where('id',$id)->field($emailuser)->find();
+                        $email = $ad->where('id',$task_id[$emailuser])->field('id,email')->find()->toArray();
+                        //准备文字内容
+                        $url = 'http://sys.dscloud.me:888/uBPmpTIrcF.php/task?ref=addtabs';
+                        $txt = '您有一笔待审核业务单，请点击连接查看。<br/><a href="'.$url.'">点击访问</a>';
+
+
+                        $mail
+                            ->subject('《充值申请》审核提醒，审核单：'.$trres['one_id'])
+                            ->from('system@huayuanl.com','Information')
+                            ->to($email['email'])
+                            ->message($txt,$ishtml = true)
+                            ->send();
+                    }
+                }
+
+                $res = $T->where($w)->update($up);
+                if($res == 1){
+                    $this->success('审批成功');
+                }else{
+                    $this->error('网络错误，请联系管理员。');
+                }
+            }
+
+            $this->success("Ajax请求成功", null, ['id' => $ids]);
+        }
+
+        $ur = $user->where('id',$row['adduser'])->field('nickname')->find()->toArray();
+        $r =  $dv->where('id',242)->field('name')->find()->toArray();
+        //查询卡名字
+        $card_name = $Card->where('id',$row['card_id'])->field('card_number')->find()->toArray();
+        $row['card_name'] = $card_name['card_number'];
+        //查询卡余额方法
+        $yue = $this->yue($row['card_id']);
+        $row['yue'] = $yue;
+
+
+
+
+        $row['username'] = $ur['nickname'];
+        $row['pay_type_name'] = $r['name'];
+        //查进度
+        //查出taskid
+        $jindu = $T->get(['id' => $ids]);
+        $lur = $user->where('id',$jindu['leder_id'])->field('nickname')->find()->toArray();
+        $our = $user->where('id',$jindu['order_id'])->field('nickname')->find()->toArray();
+        $bur = $user->where('id',$jindu['boss_id'])->field('nickname')->find()->toArray();
+        $mur = $user->where('id',$jindu['money_id'])->field('nickname')->find()->toArray();
+        if($jindu['king_id'] != ''){
+            $kur = $user->where('id',$jindu['king_id'])->field('nickname')->find()->toArray();
+            $jindu['kur'] = $kur['nickname'];
+
+        }
+
+
+        $jindu['lur'] = $lur['nickname'];
+        $jindu['our'] = $our['nickname'];
+        $jindu['bur'] = $bur['nickname'];
+        $jindu['mur'] = $mur['nickname'];
+
+
+
+
+        if (!$row) {
+            $this->error(__('No Results were found'));
+        }
+        if ($this->request->isAjax()) {
+            $this->success("Ajax请求成功", null, ['id' => $ids]);
+        }
+        $this->view->assign("row", $row);
+        $this->view->assign("new", $new);
+
+        $this->view->assign("jindu", $jindu->toArray());
+        return $this->view->fetch();
+
+    }
+    //卡余额
+    public function yue($card_id){
+        $ttl_map['card_id'] = $card_id;
+        $ttl_map['status'] = 3;//完成状态
+        $ttl_map['money_type'] = 0;
+        $ttl = $this->model->where($ttl_map)->sum('money');
+        $d_map['card_id'] = $card_id;
+        $d_map['status'] = 3;//完成状态
+        $d_map['money_type'] = 1;
+        $d = $this->model->where($d_map)->sum('money');
+        $resutl = $ttl-$d;
+        return $resutl;
+    }
+
+    public function one($ids){
+        $row = $this->model->get(['id' => $ids]);
+        if (!$row) {
+            $this->error(__('No Results were found'));
+        }
+        $row = $row->toArray();
+        $T = new Task();
+        $dv = new DictValues();
+
+        $Card = new \app\admin\model\Card();
+        $U = new \app\admin\model\Admin();
+        //查询具体taskid
+        $i = $this->model->get(['id'=>$ids])->toArray();
+
+
+        $c_w['id'] = $i['task_id'];
+        //审核人状态
+        $tres = $T->where($c_w)->field('leder_status,money_status,king_status,order_status,boss_status')->find();
+
+        if($tres){
+            $tres = $tres->toArray();
+            $bz = $T->where($c_w)->field('ps')->find()->toArray();
+            $row['beizhua'] = $bz['ps'];
+            $jindu = $T->get(['id' => $i['task_id']]);
+            $lur = $U->where('id',$jindu['leder_id'])->field('nickname')->find()->toArray();
+            $our = $U->where('id',$jindu['order_id'])->field('nickname')->find()->toArray();
+            $bur = $U->where('id',$jindu['boss_id'])->field('nickname')->find()->toArray();
+            $mur = $U->where('id',$jindu['money_id'])->field('nickname')->find()->toArray();
+            if($jindu['king_id'] != ''){
+                $kur = $U->where('id',$jindu['king_id'])->field('nickname')->find()->toArray();
+                $jindu['kur'] = $kur['nickname'];
+
+            }
+            $jindu['lur'] = $lur['nickname'];
+            $jindu['our'] = $our['nickname'];
+            $jindu['bur'] = $bur['nickname'];
+            $jindu['mur'] = $mur['nickname'];
+        }else{
+            $jindu = '';
+        }
+        $ur = $U->where('id',$row['adduser'])->field('nickname')->find()->toArray();
+        //查询卡名字
+        $card_name = $Card->where('id',$row['card_id'])->field('card_number')->find()->toArray();
+        $r =  $dv->where('id',242)->field('name')->find()->toArray();
+
+        $row['card_name'] = $card_name['card_number'];
+        //查询卡余额方法
+        $yue = $this->yue($row['card_id']);
+        $row['yue'] = $yue;
+        $row['username'] = $ur['nickname'];
+        $row['pay_type_name'] = $r['name'];
+        $this->view->assign("jindu", $jindu);
+        $this->view->assign("row", $row);
+        $this->view->assign("check", $tres);
+
+        return $this->view->fetch();
+    }
+    //查询主卡余方法
+    public function master(){
+        //先查询出主卡
+        $Card = new \app\admin\model\Card();
+        $w['card_master'] = 1;
+        $w['status'] = 0;
+        $master_card = $Card->where($w)->field('id,card_number')->select()->toArray();
+        //条件
+        $map['money_type'] = 0;
+        $map['status'] = 3;
+        $map_dk['money_type'] = '1';
+        $map_dk['status'] = 3;
+        foreach($master_card as $k=>$v){
+            $master_card[$k]['ttl'] = '';
+            $master_card[$k]['dk'] = '';
+            $master_card[$k]['yue'] = '';
+            //算出卡的充值金额
+            $map['card_id'] = $v['id'];
+            $map_dk['card_id'] = $v['id'];
+            $ttl = $this->model->where($map)->field('money')->sum('money');
+            //算出抵扣金额
+            $master_card[$k]['ttl'] .= $ttl;
+            $dk = $this->model->where($map_dk)->field('money')->sum('money');
+            $master_card[$k]['dk'] .= $dk;
+            //计算卡余额
+            $master_card[$k]['yue'] .= $ttl-$dk;
+//            dump($this->model->getLastSql());
+        }
+        return $master_card;
+
+    }
+
+
+}
